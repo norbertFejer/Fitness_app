@@ -28,6 +28,8 @@
                   SelectedItem="{Binding SelectedStock}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Articlexxx" Width="2*" Binding="{Binding Article.Description}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Price" Width="2*" Binding="{Binding Price}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Articlexxx" Width="2*" Binding="{Binding Article.Description}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Pricexxx" Width="2*" Binding="{Binding Price}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Quantity" Width="2*" Binding="{Binding Quantity}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Total Price" Width="2*" Binding="{Binding TotalPrice}"></DataGridTextColumn>
