@@ -99,21 +99,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TMCatalog.Common\FitnessApp.Common.csproj">
+    <ProjectReference Include="..\TMCatalog.Common\TMCatalog.Common.csproj">
       <Project>{224cee88-e6e8-4e07-bc30-7961b0a0b332}</Project>
-      <Name>FitnessApp.Common</Name>
+      <Name>TMCatalog.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TMCatalog.Model\FitnessApp.Model.csproj">
+    <ProjectReference Include="..\TMCatalog.Model\TMCatalog.Model.csproj">
       <Project>{a08a316e-8b35-4ef9-ad9d-a54884607512}</Project>
-      <Name>FitnessApp.Model</Name>
+      <Name>TMCatalog.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TMCatalog.ViewModel\FitnessApp.ViewModel.csproj">
+    <ProjectReference Include="..\TMCatalog.ViewModel\TMCatalog.ViewModel.csproj">
       <Project>{d71072fc-85d6-4760-80fe-b6ed900450fb}</Project>
-      <Name>FitnessApp.ViewModel</Name>
+      <Name>TMCatalog.ViewModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TMCatalog.View\FitnessApp.View.csproj">
+    <ProjectReference Include="..\TMCatalog.View\TMCatalog.View.csproj">
       <Project>{89f71946-e508-4b9c-88d3-43542117ccb8}</Project>
-      <Name>FitnessApp.View</Name>
+      <Name>TMCatalog.View</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

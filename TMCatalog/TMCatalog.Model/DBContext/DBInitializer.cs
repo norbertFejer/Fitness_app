@@ -7,7 +7,6 @@
 
 namespace TMCatalog.Model.DBContext
 {
-    using System;
     using System.Data.Entity;
     using TMCatalogClient.Model;
 
@@ -30,12 +29,6 @@ namespace TMCatalog.Model.DBContext
             this.AddVehicleTypeVin(context);
             this.AddVehicleTypeProducts(context);
             this.AddVehicleTypeArticles(context);
-
-            this.AddClients(context);
-            this.AddUsers(context);
-            this.AddTickets(context);
-            this.AddClientMemberships(context);
-            this.AddEntrance(context);
         }
 
         private void AddArticles(TMCatalogDB context)
@@ -1031,73 +1024,6 @@ namespace TMCatalog.Model.DBContext
             context.VehicleTypeVin.Add(new VehicleTypeVin { VehicleTypeId = 20, VIN = "W0L0XCE75640002091" });
             context.VehicleTypeVin.Add(new VehicleTypeVin { VehicleTypeId = 22, VIN = "W0L0XCE75640002093" });
             context.VehicleTypeVin.Add(new VehicleTypeVin { VehicleTypeId = 22, VIN = "W0L0XCE75640002094" });
-        }
-
-        private void AddClients(TMCatalogDB context)
-        {
-            context.Clients.Add(new Client { Id = 1, CardNumber = 1, Cnp = "1971224191224", FirstName = "Elekes", LastName = "Attila", PhoneNumber = "0755206318", Email = "user1@yahoo.com", Gender = 1, BirthDate = new System.DateTime(1997, 12, 24), RegisteredDate = new System.DateTime(2020, 05, 08), Photo = null, Comment = "Hello", Active = true });
-            context.Clients.Add(new Client { Id = 2, CardNumber = 2, Cnp = "2850615191225", FirstName = "Kardoskuti", LastName = "Monika", PhoneNumber = "0755206317", Email = "user2@yahoo.com", Gender = 0, BirthDate = new System.DateTime(1985, 06, 15), RegisteredDate = new System.DateTime(2019, 05, 08), Photo = null, Comment = "Hello", Active = false });
-            context.Clients.Add(new Client { Id = 3, CardNumber = 3, Cnp = "1631004191226", FirstName = "Elekes", LastName = "Attila", PhoneNumber = "0755206316", Email = "user3@freemail.hu", Gender = 1, BirthDate = new System.DateTime(1963, 10, 24), RegisteredDate = new System.DateTime(2020, 05, 08), Photo = null, Comment = "Hello", Active = false });
-            context.Clients.Add(new Client { Id = 4, CardNumber = 4, Cnp = "2750830191227", FirstName = "Kardoskuti", LastName = "Monika", PhoneNumber = "0755206315", Email = "user4@freemail.hu", Gender = 0, BirthDate = new System.DateTime(1975, 08, 30), RegisteredDate = new System.DateTime(2018, 05, 08), Photo = null, Comment = "Hello", Active = true });
-            context.Clients.Add(new Client { Id = 5, CardNumber = 5, Cnp = "1000101191228", FirstName = "Fejer", LastName = "Norbert", PhoneNumber = "0755206314", Email = "user5@gmail.com", Gender = 1, BirthDate = new System.DateTime(2000, 01, 01), RegisteredDate = new System.DateTime(2019, 05, 08), Photo = null, Comment = "Hello", Active = true });
-            context.Clients.Add(new Client { Id = 6, CardNumber = 6, Cnp = "1280503191229", FirstName = "Gerebenes", LastName = "Karoly", PhoneNumber = "0755206313", Email = "user6@gmail.com", Gender = 1, BirthDate = new System.DateTime(1928, 05, 03), RegisteredDate = new System.DateTime(2019, 05, 08), Photo = null, Comment = "Hello", Active = true });
-            context.Clients.Add(new Client { Id = 7, CardNumber = 7, Cnp = "2900204191230", FirstName = "Peter", LastName = "Erzsebet", PhoneNumber = "0755206312", Email = "user7@protonmail.com", Gender = 0, BirthDate = new System.DateTime(1990, 02, 04), RegisteredDate = new System.DateTime(2019, 05, 08), Photo = null, Comment = "Hello", Active = true });
-            context.Clients.Add(new Client { Id = 8, CardNumber = 8, Cnp = "1920515191231", FirstName = "Prezli", LastName = "Levente", PhoneNumber = "0755206311", Email = "user8@protonmail.com", Gender = 1, BirthDate = new System.DateTime(1992, 05, 15), RegisteredDate = new System.DateTime(2020, 05, 08), Photo = null, Comment = "Hello", Active = true });
-            context.Clients.Add(new Client { Id = 9, CardNumber = 9, Cnp = "2030501191232", FirstName = "Alsocsavasi", LastName = "Rozalia", PhoneNumber = "0755206310", Email = "user9@yahoo.com", Gender = 0, BirthDate = new System.DateTime(2003, 05, 01), RegisteredDate = new System.DateTime(2018, 05, 08), Photo = null, Comment = "Hello", Active = false });
-            context.Clients.Add(new Client { Id = 10, CardNumber = 10, Cnp = "1800401191233", FirstName = "Hidegbetonfalvi", LastName = "Karoly", PhoneNumber = "0755206309", Email = "user10@yahoo.com", Gender = 0, BirthDate = new System.DateTime(1980, 04, 01), RegisteredDate = new System.DateTime(2018, 05, 08), Photo = null, Comment = "Nem beengedni", Active = true });
-        }
-
-
-        private void AddUsers(TMCatalogDB context)
-        {
-            context.Users.Add(new User { Id = 1, FirstName = "Baricz", LastName = "Huba", UserName = "admin1", Password = "21232f297a57a5a743894a0e4a801fc3", Type = 1 });
-            context.Users.Add(new User { Id = 2, FirstName = "Szalay", LastName = "Jolan", UserName = "admin2", Password = "21232f297a57a5a743894a0e4a801fc3", Type = 1 });
-            context.Users.Add(new User { Id = 3, FirstName = "Egressy", LastName = "Krisztina", UserName = "admin3", Password = "21232f297a57a5a743894a0e4a801fc3", Type = 1 });
-            context.Users.Add(new User { Id = 4, FirstName = "Toth", LastName = "Erzsebet", UserName = "user1", Password = "ee11cbb19052e40b07aac0ca060c23ee", Type = 0 });
-            context.Users.Add(new User { Id = 5, FirstName = "Szakacs", LastName = "Geza", UserName = "user2", Password = "ee11cbb19052e40b07aac0ca060c23ee", Type = 0 });
-            context.Users.Add(new User { Id = 6, FirstName = "Alsokiskoszorvenyi", LastName = "Geza", UserName = "user3", Password = "ee11cbb19052e40b07aac0ca060c23ee", Type = 0 });
-            context.Users.Add(new User { Id = 7, FirstName = "Jobbagyfalvi", LastName = "Andrea", UserName = "user4", Password = "ee11cbb19052e40b07aac0ca060c23ee", Type = 0 });
-            context.Users.Add(new User { Id = 8, FirstName = "Komuves", LastName = "Andrea", UserName = "user5", Password = "ee11cbb19052e40b07aac0ca060c23ee", Type = 0 });
-            context.Users.Add(new User { Id = 9, FirstName = "Iszlai", LastName = "Terez", UserName = "user6", Password = "ee11cbb19052e40b07aac0ca060c23ee", Type = 0 });
-            context.Users.Add(new User { Id = 10, FirstName = "Cserhalmi", LastName = "Nikolett", UserName = "user7", Password = "ee11cbb19052e40b07aac0ca060c23ee", Type = 0 });
-        }
-
-        private void AddTickets(TMCatalogDB context)
-        {
-            context.Tickets.Add(new Ticket { Id = 1, Type = "Aerobic", MaxEntrance = 20, ValidityNumber = 30, Active = true, Price = 50.0F, Discount = 25, DiscountFrom = new System.DateTime(2020, 05, 01), DiscountUntil = new System.DateTime(2020, 05, 30), Comment = "Aerobic ticket for 20 entrances" });
-            context.Tickets.Add(new Ticket { Id = 2, Type = "Fitness", MaxEntrance = -1, ValidityNumber = 60, Active = true, Price = 50.0F, Discount = 10, DiscountFrom = new System.DateTime(2020, 04, 08), DiscountUntil = new System.DateTime(2020, 05, 08), Comment = "Fitness ticket for 60 days" });
-            context.Tickets.Add(new Ticket { Id = 3, Type = "Fitness", MaxEntrance = -1, ValidityNumber = 30, Active = true, Price = 80.0F, Discount = 15, DiscountFrom = new System.DateTime(2020, 03, 08), DiscountUntil = new System.DateTime(2020, 04, 08), Comment = "Aerobic ticket for 30 days" });
-            context.Tickets.Add(new Ticket { Id = 4, Type = "Sauna", MaxEntrance = 30, ValidityNumber = -1, Active = true, Price = 25.0F, Discount = 15, DiscountFrom = new System.DateTime(2019, 05, 08), DiscountUntil = new System.DateTime(2019, 06, 08), Comment = "Sauna ticket for 30 entrances" });
-            context.Tickets.Add(new Ticket { Id = 5, Type = "All Inclusive", MaxEntrance = 60, ValidityNumber = 365, Active = true, Price = 600.0F, Discount = 0, DiscountFrom = DateTime.Now, DiscountUntil = DateTime.Now, Comment = "All inclusive ticket for 60 entries with one year valability" });
-            context.Tickets.Add(new Ticket { Id = 6, Type = "Gym", MaxEntrance = -1, ValidityNumber = 30, Active = true, Price = 50.0F, Discount = 0, DiscountFrom = DateTime.Now, DiscountUntil = DateTime.Now, Comment = "Gym ticket" });
-            context.Tickets.Add(new Ticket { Id = 7, Type = "Jacuzzi", MaxEntrance = 1, ValidityNumber = -1, Active = true, Price = 15.0F, Discount = 0, DiscountFrom = DateTime.Now, DiscountUntil = DateTime.Now, Comment = "Jacuzzi ticket" });
-            context.Tickets.Add(new Ticket { Id = 8, Type = "Wellness", MaxEntrance = 1, ValidityNumber = -1, Active = true, Price = 15.0F, Discount = 0, DiscountFrom = DateTime.Now, DiscountUntil = DateTime.Now, Comment = "Wellness ticket" });
-            context.Tickets.Add(new Ticket { Id = 9, Type = "Physiotherapy", MaxEntrance = 10, ValidityNumber = -1, Active = true, Price = 250.0F, Discount = 0, DiscountFrom = DateTime.Now, DiscountUntil = DateTime.Now, Comment = "Physiotherapy for old persons" });
-        }
-
-        private void AddClientMemberships(TMCatalogDB context)
-        {
-            context.ClientMemberships.Add(new ClientMembership { Id = 1, ClientId = 2, TicketId = 1, ValidAfter = new System.DateTime(2020, 04, 08), EntranceLeft = 0, UserId = 1, SoldOn = new System.DateTime(2020, 04, 08), Active = false, Price = 50.0F, Comment = "" });
-            context.ClientMemberships.Add(new ClientMembership { Id = 2, ClientId = 3, TicketId = 6, ValidAfter = new System.DateTime(2019, 05, 08), EntranceLeft = -1, UserId = 2, SoldOn = new System.DateTime(2020, 05, 08), Active = true, Price = 37.5F, Comment = "" });
-            context.ClientMemberships.Add(new ClientMembership { Id = 3, ClientId = 5, TicketId = 6, ValidAfter = new System.DateTime(2020, 05, 01), EntranceLeft = -1, UserId = 1, SoldOn = new System.DateTime(2020, 05, 01), Active = true, Price = 37.5F, Comment = "" });
-            context.ClientMemberships.Add(new ClientMembership { Id = 4, ClientId = 9, TicketId = 1, ValidAfter = new System.DateTime(2020, 01, 01), EntranceLeft = 5, UserId = 3, SoldOn = new System.DateTime(2019, 12, 20), Active = false, Price = 50.0F, Comment = "" });
-            context.ClientMemberships.Add(new ClientMembership { Id = 5, ClientId = 7, TicketId = 1, ValidAfter = new System.DateTime(2020, 01, 01), EntranceLeft = 2, UserId = 5, SoldOn = new System.DateTime(2019, 12, 20), Active = false, Price = 50.0F, Comment = "" });
-            context.ClientMemberships.Add(new ClientMembership { Id = 6, ClientId = 1, TicketId = 6, ValidAfter = new System.DateTime(2020, 05, 08), EntranceLeft = -1, UserId = 9, SoldOn = new System.DateTime(2020, 05, 08), Active = true, Price = 37.5F, Comment = "" });
-            context.ClientMemberships.Add(new ClientMembership { Id = 7, ClientId = 5, TicketId = 6, ValidAfter = new System.DateTime(2020, 04, 08), EntranceLeft = -1, UserId = 8, SoldOn = new System.DateTime(2020, 04, 01), Active = false, Price = 37.5F, Comment = "" });
-            context.ClientMemberships.Add(new ClientMembership { Id = 8, ClientId = 2, TicketId = 1, ValidAfter = new System.DateTime(2020, 05, 08), EntranceLeft = 20, UserId = 1, SoldOn = new System.DateTime(2020, 05, 07), Active = true, Price = 37.5F, Comment = "" });
-            context.ClientMemberships.Add(new ClientMembership { Id = 9, ClientId = 6, TicketId = 9, ValidAfter = new System.DateTime(2020, 05, 01), EntranceLeft = 9, UserId = 2, SoldOn = new System.DateTime(2020, 04, 30), Active = true, Price = 37.5F, Comment = "" });
-        }
-
-        private void AddEntrance(TMCatalogDB context)
-        {
-            context.Entrances.Add(new Entrance { Id = 1, ClientMembershipId = 3, ArrivedTime = new System.DateTime(2020, 05, 08, 12, 00, 00), LeftTime = new System.DateTime(2020, 05, 08, 13, 00, 00) });
-            context.Entrances.Add(new Entrance { Id = 2, ClientMembershipId = 5, ArrivedTime = new System.DateTime(2020, 05, 02, 12, 00, 00), LeftTime = new System.DateTime(2020, 05, 02, 13, 00, 00) });
-            context.Entrances.Add(new Entrance { Id = 3, ClientMembershipId = 5, ArrivedTime = new System.DateTime(2020, 05, 03, 12, 00, 00), LeftTime = new System.DateTime(2020, 05, 03, 13, 00, 00) });
-            context.Entrances.Add(new Entrance { Id = 4, ClientMembershipId = 8, ArrivedTime = new System.DateTime(2020, 05, 04, 12, 00, 00), LeftTime = new System.DateTime(2020, 05, 04, 13, 00, 00) });
-            context.Entrances.Add(new Entrance { Id = 5, ClientMembershipId = 5, ArrivedTime = new System.DateTime(2020, 05, 05, 12, 00, 00), LeftTime = new System.DateTime(2020, 05, 05, 13, 00, 00) });
-            context.Entrances.Add(new Entrance { Id = 6, ClientMembershipId = 8, ArrivedTime = new System.DateTime(2020, 05, 06, 12, 00, 00), LeftTime = new System.DateTime(2020, 05, 06, 13, 00, 00) });
-            context.Entrances.Add(new Entrance { Id = 7, ClientMembershipId = 5, ArrivedTime = new System.DateTime(2020, 05, 07, 12, 00, 00), LeftTime = new System.DateTime(2020, 05, 07, 13, 00, 00) });
-            context.Entrances.Add(new Entrance { Id = 8, ClientMembershipId = 1, ArrivedTime = new System.DateTime(2020, 05, 08, 12, 00, 00), LeftTime = new System.DateTime(2020, 05, 08, 13, 00, 00) });
         }
     }
 }

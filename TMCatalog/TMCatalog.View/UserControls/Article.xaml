@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="TMCatalog.View.UserControls.Article"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TMCatalog.View.UserControls"
+             xmlns:helpers="clr-namespace:TMCatalog.Common.Helpers;assembly=TMCatalog.Common"
+             xmlns:behaviors="clr-namespace:TMCatalog.Common.Behaviors;assembly=TMCatalog.Common"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:converters="clr-namespace:TMCatalog.Common.Converters;assembly=TMCatalog.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ArticleStockConverter x:Key="ArticleStockConverter"></converters:ArticleStockConverter>
+        <converters:DataGridRowNumberConverter x:Key="DataGridRowNumberConverter"></converters:DataGridRowNumberConverter>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0"
+               Content="{Binding SelectedVehicleDescription}"
+               Foreground="Blue"
+               FontSize="40"></Label>
+
+        <TreeView Grid.Row="1"
+                  Grid.Column="0"
+                  ItemsSource="{Binding ProductGroups}">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type helpers:ProductGroupBase}" ItemsSource="{Binding Products}">
+                    <TextBlock Text="{Binding Description}"></TextBlock>
+                </HierarchicalDataTemplate>
+
+                <DataTemplate DataType="{x:Type helpers:ProductBase}">
+                    <TextBlock Text="{Binding Description}"></TextBlock>
+                </DataTemplate>
+            </TreeView.Resources>
+            <i:Interaction.Behaviors>
+                <behaviors:TreeViewSelectedItemBehavior TreeViewSelectedItem="{Binding SelectedTreeViewItem,
+                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></behaviors:TreeViewSelectedItemBehavior>
+            </i:Interaction.Behaviors>
+        </TreeView>
+
+        <Grid Grid.Row="1"
+              Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <DataGrid Grid.Row="0"
+                  IsReadOnly="True"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Articles}"
+                  SelectedItem="{Binding SelectedArticle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Product" Width="2*" Binding="{Binding Product.Description}"/>
+                    <DataGridTextColumn Header="Article Number" Width="2*" Binding="{Binding ArticleNumber}"/>
+                    <DataGridTextColumn Header="Description" Width="4*" Binding="{Binding Description}"/>
+
+                    <DataGridTextColumn Header="Availability" Width="*">
+                        <DataGridTextColumn.Binding>
+                            <MultiBinding Converter="{StaticResource ArticleStockConverter}" ConverterParameter="Quantity">
+                                <Binding Path="Id"/>
+                                <Binding Path="DataContext.StockDictionary"
+                                     RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}"/>
+                            </MultiBinding>
+                        </DataGridTextColumn.Binding>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Price" Width="*">
+                        <DataGridTextColumn.Binding>
+                            <MultiBinding Converter="{StaticResource ArticleStockConverter}" ConverterParameter="Price">
+                                <Binding Path="Id"/>
+                                <Binding Path="DataContext.StockDictionary"
+                                     RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}"/>
+                            </MultiBinding>
+                        </DataGridTextColumn.Binding>
+                    </DataGridTextColumn>
+
+                </DataGrid.Columns>
+
+                <DataGrid.RowHeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource DataGridRowNumberConverter}}"></TextBlock>
+                    </DataTemplate>
+                </DataGrid.RowHeaderTemplate>
+
+            </DataGrid>
+
+            <Button Grid.Row="1"
+                    HorizontalAlignment="Right"
+                    Content = "Add to Basket"
+                    Command = "{Binding AddToBasketCommand}"/>
+        </Grid>
+    </Grid>
+</UserControl>

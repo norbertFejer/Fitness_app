@@ -119,46 +119,5 @@ namespace TMCatalog.Model.DBContext
         /// The vehicle type vin.
         /// </value>
         public virtual DbSet<VehicleTypeVin> VehicleTypeVin { get; set; }
-
-        /// <summary>
-        /// Gets or sets the clients.
-        /// </summary>
-        /// <value>
-        /// The clients.
-        /// </value>
-        public virtual DbSet<Client> Clients { get; set; }
-
-        /// <summary>
-        /// Gets or sets the users.
-        /// </summary>
-        /// <value>
-        /// The users.
-        /// </value>
-
-        public virtual DbSet<User> Users { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tickets.
-        /// </summary>
-        /// <value>
-        /// The tickets.
-        /// </value>
-        public virtual DbSet<Ticket> Tickets { get; set; }
-
-        /// <summary>
-        /// Gets or sets the client memberships.
-        /// </summary>
-        /// <value>
-        /// The client memberships.
-        /// </value>
-        public virtual DbSet<ClientMembership> ClientMemberships { get; set; }
-
-        /// <summary>
-        /// Gets or sets the entrances.
-        /// </summary>
-        /// <value>
-        /// The entrances.
-        /// </value>
-        public virtual DbSet<Entrance> Entrances { get; set; }
     }
 }

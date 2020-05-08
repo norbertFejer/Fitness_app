@@ -55,13 +55,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="ClientMembership.cs" />
     <Compile Include="DBContext\DBInitializer.cs" />
     <Compile Include="DBContext\TMCatalogDB.cs" />
+    <Compile Include="Entrance.cs" />
     <Compile Include="FuelType.cs" />
     <Compile Include="Manufacturer.cs" />
     <Compile Include="Migrations\201903041324355_TMCatalogDB.cs" />
     <Compile Include="Migrations\201903041324355_TMCatalogDB.Designer.cs">
       <DependentUpon>201903041324355_TMCatalogDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005081817359_FitnessApp.cs" />
+    <Compile Include="Migrations\202005081817359_FitnessApp.Designer.cs">
+      <DependentUpon>202005081817359_FitnessApp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005081908200_DBchange.cs" />
+    <Compile Include="Migrations\202005081908200_DBchange.Designer.cs">
+      <DependentUpon>202005081908200_DBchange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005081914247_DBchange3.cs" />
+    <Compile Include="Migrations\202005081914247_DBchange3.Designer.cs">
+      <DependentUpon>202005081914247_DBchange3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.cs" />
@@ -69,6 +84,8 @@
     <Compile Include="ProductGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stock.cs" />
+    <Compile Include="Ticket.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="VehicleType.cs" />
     <Compile Include="VehicleTypeArticles.cs" />
     <Compile Include="VehicleTypePlateNr.cs" />
@@ -76,9 +93,9 @@
     <Compile Include="VehicleTypeVin.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TMCatalog.Common\FitnessApp.Common.csproj">
+    <ProjectReference Include="..\TMCatalog.Common\TMCatalog.Common.csproj">
       <Project>{224cee88-e6e8-4e07-bc30-7961b0a0b332}</Project>
-      <Name>FitnessApp.Common</Name>
+      <Name>TMCatalog.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +105,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903041324355_TMCatalogDB.resx">
       <DependentUpon>201903041324355_TMCatalogDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005081817359_FitnessApp.resx">
+      <DependentUpon>202005081817359_FitnessApp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005081908200_DBchange.resx">
+      <DependentUpon>202005081908200_DBchange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005081914247_DBchange3.resx">
+      <DependentUpon>202005081914247_DBchange3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
