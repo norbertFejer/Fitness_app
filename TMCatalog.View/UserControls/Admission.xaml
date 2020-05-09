@@ -9,6 +9,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:DataGridRowNumberConverter x:Key="DataGridRowNumberConverter"/>
+        <converters:EntranceConverter x:Key="EntranceConverter"></converters:EntranceConverter>
+        <converters:ValidityNumberConverter x:Key="ValidityNumberConverter"></converters:ValidityNumberConverter>
     </UserControl.Resources>
 
     <Grid>
@@ -49,6 +51,10 @@
                   SelectedItem="{Binding SelectedItem}"
                   SelectionMode="Single">
 
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenClienTabCommand}"/>
+            </DataGrid.InputBindings>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Card number"
                                 Width="*"
@@ -66,11 +72,24 @@
                                 Width="*"
                                 Binding="{Binding TicketType}"/>
                 <DataGridTextColumn Header="Valid Until"
-                                Width="*"
-                                Binding="{Binding ValidUntil}"/>
+                                Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource ValidityNumberConverter}">
+                            <Binding Path="ValidUntil"/>
+                            <Binding Path="ValidityNumber"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                    
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Entrance left"
-                                Width="*"
-                                Binding="{Binding EntranceLeft}"/>
+                                Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource EntranceConverter}">
+                            <Binding Path="EntranceLeft"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                    
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Comment"
                                 Width="2*"
                                 Binding="{Binding Comment}"/>

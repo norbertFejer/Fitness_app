@@ -47,6 +47,12 @@ namespace TMCatalog.ViewModel
             this.ClientMembershipVM.SearchText = name;
         }
 
+        public void SetAndOpenClients(string cardNum)
+        {
+            this.SelectedTabIndex = 1;
+            this.ClientVM.SearchText = cardNum;
+        }
+
         public int SelectedTabIndex
         {
             get

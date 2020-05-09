@@ -18,14 +18,15 @@ namespace TMCatalog.ViewModel.UserControls
         private object selectedItem;
 
         public RelayCommand EnterClientCommand { get; private set; }
+        public RelayCommand OpenClienTabCommand { get; private set; }
 
         public AdmissionVM()
         {
             this.PlaceholderText = "Search by name, card number or phone number...";
             this.SearchText = this.PlaceholderText;
-            //this.ClientsTicketsList = Data.Catalog.GetAllClientTicketsList(listInactiveTickets);
 
             this.EnterClientCommand = new RelayCommand(this.EnterClientExecute, this.EnterClientCanExecute);
+            this.OpenClienTabCommand = new RelayCommand(this.OpenClientTabExecute, this.OpenClientTabCanExecute);
         }
 
         public string SearchText
@@ -206,6 +207,17 @@ namespace TMCatalog.ViewModel.UserControls
         }
 
         private bool EnterClientCanExecute()
+        {
+            return this.SelectedItem != null;
+        }
+
+        private void OpenClientTabExecute()
+        {
+            string cardNum = getPropertValueFromSelectedItem("CardNumber").ToString();
+            MainWindowViewModel.Instance.SetAndOpenClients(cardNum);
+        }
+
+        private bool OpenClientTabCanExecute()
         {
             return this.SelectedItem != null;
         }
