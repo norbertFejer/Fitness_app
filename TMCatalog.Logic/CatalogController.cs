@@ -133,7 +133,7 @@ namespace TMCatalog.Logic
 
         public List<ClientMembership> SearchClientMembershipByName(string name)
         {
-            return this.catalogDatabase.Clients.
+            return this.catalogDatabase.ClientMemberships.
                 Where(cm => string.Concat(cm.Client.FirstName, " ", cm.Client.LastName).ToLower().Contains(name.ToLower())).
                 ToList();
         }
