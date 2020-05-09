@@ -120,6 +120,23 @@ namespace TMCatalog.Logic
                 Where(c => string.Concat(c.FirstName, " ", c.LastName).ToLower().Contains(name.ToLower())).
                 ToList();
         }
+
+        public List<ClientMembership> GetAllClientMemberships()
+        {
+            return this.catalogDatabase.ClientMemberships.ToList();
+        }
+
+        public List<ClientMembership> SearchClientMembershipByCardNumber(int cardNumber)
+        {
+            return this.catalogDatabase.ClientMemberships.Where(cm => cm.Client.CardNumber == cardNumber).ToList();
+        }
+
+        public List<ClientMembership> SearchClientMembershipByName(string name)
+        {
+            return this.catalogDatabase.Clients.
+                Where(cm => string.Concat(cm.Client.FirstName, " ", cm.Client.LastName).ToLower().Contains(name.ToLower())).
+                ToList();
+        }
     }
 }
     
