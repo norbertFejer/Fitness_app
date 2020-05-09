@@ -40,7 +40,12 @@
                   ItemsSource="{Binding ClientList}"
                   IsReadOnly="True"
                   AutoGenerateColumns="False"
-                  SelectedItem="{Binding SelectedClient}">
+                  SelectedItem="{Binding SelectedClient}"
+                  SelectionMode="Single">
+
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenClientMembershipTabCommand}"/>
+            </DataGrid.InputBindings>
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="First Name"
