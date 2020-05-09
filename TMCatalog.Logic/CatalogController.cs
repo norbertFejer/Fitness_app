@@ -9,6 +9,7 @@ namespace TMCatalog.Logic
 {
     using System.Collections.Generic;
     using System.Linq;
+    using TMCatalog.Model;
     using TMCatalog.Model.DBContext;
     using TMCatalogClient.Model;
 
@@ -96,6 +97,14 @@ namespace TMCatalog.Logic
         public Stock GetArticleStock(int articleID)
         {
             return this.catalogDatabase.Stocks.FirstOrDefault(s => s.ArticleId == articleID);
+        }
+
+        ///Fitness app querrys
+        ///
+
+        public User GetUserByUsernameAndPassword(string username, string password)
+        {
+            return this.catalogDatabase.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
         }
     }
 }

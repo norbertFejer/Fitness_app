@@ -42,7 +42,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -56,6 +58,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -75,8 +80,24 @@
       <Project>{224cee88-e6e8-4e07-bc30-7961b0a0b332}</Project>
       <Name>TMCatalog.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TMCatalog.Logic\TMCatalog.Logic.csproj">
+      <Project>{4258A4AE-2716-45E4-9A6F-8A2BE9F7F033}</Project>
+      <Name>TMCatalog.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TMCatalog.Model\TMCatalog.Model.csproj">
+      <Project>{A08A316E-8B35-4EF9-AD9D-A54884607512}</Project>
+      <Name>TMCatalog.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TMCatalog.ViewModel\TMCatalog.ViewModel.csproj">
+      <Project>{D71072FC-85D6-4760-80FE-B6ED900450FB}</Project>
+      <Name>TMCatalog.ViewModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -103,6 +124,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Untitled.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

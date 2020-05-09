@@ -70,14 +70,6 @@
     <Compile Include="Migrations\202005081817359_FitnessApp.Designer.cs">
       <DependentUpon>202005081817359_FitnessApp.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202005081908200_DBchange.cs" />
-    <Compile Include="Migrations\202005081908200_DBchange.Designer.cs">
-      <DependentUpon>202005081908200_DBchange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005081914247_DBchange3.cs" />
-    <Compile Include="Migrations\202005081914247_DBchange3.Designer.cs">
-      <DependentUpon>202005081914247_DBchange3.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Product.cs" />
@@ -108,12 +100,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005081817359_FitnessApp.resx">
       <DependentUpon>202005081817359_FitnessApp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005081908200_DBchange.resx">
-      <DependentUpon>202005081908200_DBchange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005081914247_DBchange3.resx">
-      <DependentUpon>202005081914247_DBchange3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
