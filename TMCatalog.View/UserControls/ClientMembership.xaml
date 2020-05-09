@@ -9,6 +9,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:DataGridRowNumberConverter x:Key="DataGridRowNumberConverter"/>
+        <converters:DateTimeConverter x:Key="DateTimeConverter"></converters:DateTimeConverter>
+        <converters:EntranceConverter x:Key="EntranceConverter"></converters:EntranceConverter>
+        <converters:ValidityNumberConverter x:Key="ValidityNumberConverter"></converters:ValidityNumberConverter>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -41,10 +44,9 @@
         <DataGrid Grid.Row="1"
                   Grid.ColumnSpan="3"
                   Margin="5"
-                  ItemsSource="{Binding ClientList}"
+                  ItemsSource="{Binding ClientMembershipList}"
                   IsReadOnly="True"
-                  AutoGenerateColumns="False"
-                  SelectedItem="{Binding SelectedClient}">
+                  AutoGenerateColumns="False">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="First Name"
@@ -59,15 +61,44 @@
                 <DataGridTextColumn Header="Ticket Type"
                                     Width="*"
                                     Binding="{Binding Ticket.Type}"/>
+                
                 <DataGridTextColumn Header="Sold On"
-                                    Width="*"
-                                    Binding="{Binding SoldOn}"/>
+                                    Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource DateTimeConverter}">
+                            <Binding Path="SoldOn"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                
                 <DataGridTextColumn Header="Valid After"
-                                    Width="*"
-                                    Binding="{Binding ValidAfter}"/>
+                                    Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource DateTimeConverter}">
+                            <Binding Path="ValidAfter"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Valid Until"
+                                    Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource ValidityNumberConverter}">
+                            <Binding Path="ValidAfter"/>
+                            <Binding Path="Ticket.ValidityNumber"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+
                 <DataGridTextColumn Header="Entrance Left"
-                                    Width="*"
-                                    Binding="{Binding EntranceLeft}"/>
+                                    Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource EntranceConverter}">
+                            <Binding Path="EntranceLeft"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                
                 <DataGridTextColumn Header="Price"
                                     Width="*"
                                     Binding="{Binding Price}"/>

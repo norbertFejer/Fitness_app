@@ -58,6 +58,9 @@
     <Compile Include="Behaviors\TreeViewSelectedItemBehavior.cs" />
     <Compile Include="Converters\ArticleStockConverter.cs" />
     <Compile Include="Converters\DataGridRowNumberConverter.cs" />
+    <Compile Include="Converters\DateTimeConverter.cs" />
+    <Compile Include="Converters\EntranceConverter.cs" />
+    <Compile Include="Converters\ValidityNumberConverter.cs" />
     <Compile Include="Helpers\ProductBase.cs" />
     <Compile Include="Helpers\ProductGroupBase.cs" />
     <Compile Include="Interfaces\IStock.cs" />
