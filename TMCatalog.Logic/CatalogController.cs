@@ -99,6 +99,9 @@ namespace TMCatalog.Logic
             return this.catalogDatabase.Stocks.FirstOrDefault(s => s.ArticleId == articleID);
         }
 
+        ///Fitness app querrys
+        ///
+
         public List<Client> GetAllClients()
         {
             return this.catalogDatabase.Clients.ToList();
@@ -120,9 +123,6 @@ namespace TMCatalog.Logic
                 Where(c => string.Concat(c.FirstName, " ", c.LastName).ToLower().Contains(name.ToLower())).
                 ToList();
         }
-
-        ///Fitness app querrys
-        ///
 
         public User GetUserByUsernameAndPassword(string username, string password)
         {
