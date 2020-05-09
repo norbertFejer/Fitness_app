@@ -15,10 +15,12 @@ namespace TMCatalog.ViewModel.UserControls
         private List<Client> clientList;
         private Client selectedClient;
         private string searchText;
+        public RelayCommand OpenClientMembershipTabCommand { get; private set; }
 
         public ClientVM()
         {
             this.SearchText = this.PlaceholderText;
+            this.OpenClientMembershipTabCommand = new RelayCommand(this.OpenClientMembershipTabExecute);
         }
 
         public string PlaceholderText
@@ -95,6 +97,12 @@ namespace TMCatalog.ViewModel.UserControls
                     }
                 }
             }
+        }
+
+        private void OpenClientMembershipTabExecute()
+        {
+            MainWindowViewModel.Instance.
+                SetAndOpenMembership(String.Concat(this.SelectedClient.FirstName, " ", this.SelectedClient.LastName));
         }
     }
 }

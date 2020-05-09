@@ -25,6 +25,8 @@ namespace TMCatalog.ViewModel
             this.selectedTabIndex = 0;
             this.ArticleVM = new ArticleVM();
             this.ShoppingBasketVM = new ShoppingBasketVM();
+            this.ClientVM = new ClientVM();
+            this.ClientMembershipVM = new ClientMembershipVM();
         }
 
         public VehicleSearchVM VehicleSearchVM { get; }
@@ -32,6 +34,12 @@ namespace TMCatalog.ViewModel
         public ShoppingBasketVM ShoppingBasketVM { get; }
 
         public RelayCommand CloseCommand { get; set; }
+
+        public ArticleVM ArticleVM { get;  }
+
+        public ClientVM ClientVM { get; }
+
+        public ClientMembershipVM ClientMembershipVM { get; }
 
         public void CloseCommandExecute()
         {
@@ -44,7 +52,11 @@ namespace TMCatalog.ViewModel
             this.ArticleVM.VehicleType = selectedVehicle;
         }
 
-        public ArticleVM ArticleVM { get;  }
+        public void SetAndOpenMembership(string name)
+        {
+            this.SelectedTabIndex = 4;
+            this.ClientMembershipVM.SearchText = name;
+        }
 
         public int SelectedTabIndex
         {

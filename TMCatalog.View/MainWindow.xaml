@@ -53,6 +53,15 @@
                     </DataTemplate>
                 </TabItem.ContentTemplate>
             </TabItem>
+            <TabItem Header="Client Memberships">
+                <TabItem.ContentTemplate>
+                    <DataTemplate>
+                        <controls:ClientMembership DataContext="{Binding DataContext.ClientMembershipVM, 
+                            RelativeSource={RelativeSource FindAncestor, 
+                            AncestorType={x:Type Window}}}"></controls:ClientMembership>
+                    </DataTemplate>
+                </TabItem.ContentTemplate>
+            </TabItem>
         </TabControl>
 
         <Button Grid.Row="3"
