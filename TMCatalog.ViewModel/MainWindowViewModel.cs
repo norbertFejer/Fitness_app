@@ -9,47 +9,50 @@ namespace TMCatalog.ViewModel
 {
     using System.Collections.Generic;
     using TMCatalog.Common.MVVM;
-  using TMCatalog.Logic;
+    using TMCatalog.Logic;
     using TMCatalog.ViewModel.UserControls;
     using TMCatalogClient.Model;
 
     public class MainWindowViewModel : ViewModelBase
-   {
-
-    private int selectedTabIndex;
-    public static MainWindowViewModel Instance { get; private set; }
-
-    public MainWindowViewModel()
     {
-      Instance = this;
-      this.CloseCommand = new RelayCommand(this.CloseCommandExecute);
-      this.VehicleSearchVM = new VehicleSearchVM();
-      this.selectedTabIndex = 0;
-      this.ArticleVM = new ArticleVM();
-        this.ShoppingBasketVM = new ShoppingBasketVM();
-    }
 
-    public VehicleSearchVM VehicleSearchVM { get; }
+        private int selectedTabIndex;
+        public static MainWindowViewModel Instance { get; private set; }
 
-    public ShoppingBasketVM ShoppingBasketVM { get; }
+        public MainWindowViewModel()
+        {
+            Instance = this;
+            this.CloseCommand = new RelayCommand(this.CloseCommandExecute);
+            this.VehicleSearchVM = new VehicleSearchVM();
+            this.selectedTabIndex = 0;
+            this.ArticleVM = new ArticleVM();
+            this.ShoppingBasketVM = new ShoppingBasketVM();
+            this.ClientVM = new ClientVM();
+        }
 
-    public RelayCommand CloseCommand { get; set; }
+        public VehicleSearchVM VehicleSearchVM { get; }
 
-    public void CloseCommandExecute()
-    {
-      ViewService.CloseDialog(this);
-    }
+        public ShoppingBasketVM ShoppingBasketVM { get; }
 
-    public void SetAndOpenArticle(VehicleType selectedVehicle)
-    {
-        this.SelectedTabIndex = 1;
-        this.ArticleVM.VehicleType = selectedVehicle;
-    }
+        public RelayCommand CloseCommand { get; set; }
 
-    public ArticleVM ArticleVM { get;  }
+        public ArticleVM ArticleVM { get;  }
 
-    public int SelectedTabIndex
-    {
+        public ClientVM ClientVM { get; }
+
+        public void CloseCommandExecute()
+        {
+            ViewService.CloseDialog(this);
+        }
+
+        public void SetAndOpenArticle(VehicleType selectedVehicle)
+        {
+            this.SelectedTabIndex = 1;
+            this.ArticleVM.VehicleType = selectedVehicle;
+        }
+
+        public int SelectedTabIndex
+        {
             get
             {
                 return this.selectedTabIndex;
@@ -60,12 +63,12 @@ namespace TMCatalog.ViewModel
                 this.selectedTabIndex = value;
                 this.RaisePropertyChanged();
             }
-    }
+        }
 
-    public void AddStockWithArticleToBasket(Stock stock)
-    {
+        public void AddStockWithArticleToBasket(Stock stock)
+        {
             this.ShoppingBasketVM.AddStockWithArticleToBasket(stock);
-    }
+        }
 
     }
 }

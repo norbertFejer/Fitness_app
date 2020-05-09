@@ -3,7 +3,7 @@ namespace TMCatalog.Model.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class DBchange3 : DbMigration
+    public partial class Update1 : DbMigration
     {
         public override void Up()
         {

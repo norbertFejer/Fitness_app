@@ -66,17 +66,9 @@
     <Compile Include="Migrations\201903041324355_TMCatalogDB.Designer.cs">
       <DependentUpon>201903041324355_TMCatalogDB.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202005081817359_FitnessApp.cs" />
-    <Compile Include="Migrations\202005081817359_FitnessApp.Designer.cs">
-      <DependentUpon>202005081817359_FitnessApp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005081908200_DBchange.cs" />
-    <Compile Include="Migrations\202005081908200_DBchange.Designer.cs">
-      <DependentUpon>202005081908200_DBchange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005081914247_DBchange3.cs" />
-    <Compile Include="Migrations\202005081914247_DBchange3.Designer.cs">
-      <DependentUpon>202005081914247_DBchange3.cs</DependentUpon>
+    <Compile Include="Migrations\202005090659117_Update1.cs" />
+    <Compile Include="Migrations\202005090659117_Update1.Designer.cs">
+      <DependentUpon>202005090659117_Update1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.cs" />
@@ -106,14 +98,8 @@
     <EmbeddedResource Include="Migrations\201903041324355_TMCatalogDB.resx">
       <DependentUpon>201903041324355_TMCatalogDB.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005081817359_FitnessApp.resx">
-      <DependentUpon>202005081817359_FitnessApp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005081908200_DBchange.resx">
-      <DependentUpon>202005081908200_DBchange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005081914247_DBchange3.resx">
-      <DependentUpon>202005081914247_DBchange3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005090659117_Update1.resx">
+      <DependentUpon>202005090659117_Update1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

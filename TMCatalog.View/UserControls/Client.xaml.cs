@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TMCatalog.ViewModel;
+using TMCatalog.ViewModel.UserControls;
 
 namespace TMCatalog.View.UserControls
 {
@@ -20,27 +22,36 @@ namespace TMCatalog.View.UserControls
     /// </summary>
     public partial class Client : UserControl
     {
-        private const string placeholderText = "Search by name, card number or phone number...";
+        ClientVM clientVM;
 
         public Client()
         {
             InitializeComponent();
+            clientVM = MainWindowViewModel.Instance.ClientVM;
         }
 
         private void RemovePlaceholderText(object sender, RoutedEventArgs e)
         {
-            if (((TextBox) sender).Text.Equals(placeholderText))
+            if (clientVM.SearchText.Equals(clientVM.PlaceholderText))
             {
-                ((TextBox) sender).Text = "";
+                clientVM.SearchText = "";
+                clientVM.SearchClient();
             }
         }
 
         private void SetPlaceholderText(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(((TextBox) sender).Text.Trim()))
+            if (String.IsNullOrEmpty(clientVM.SearchText.Trim()))
             {
-                ((TextBox) sender).Text = placeholderText;
+                clientVM.SearchText = clientVM.PlaceholderText;
+                clientVM.SearchClient();
             }
+        }
+
+        private void Search(object sender, TextChangedEventArgs e)
+        {
+            clientVM.SearchText = ((TextBox)sender).Text;
+            clientVM.SearchClient();
         }
     }
 }

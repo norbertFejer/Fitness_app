@@ -80,6 +80,10 @@
       <Project>{224cee88-e6e8-4e07-bc30-7961b0a0b332}</Project>
       <Name>TMCatalog.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TMCatalog.ViewModel\TMCatalog.ViewModel.csproj">
+      <Project>{D71072FC-85D6-4760-80FE-B6ED900450FB}</Project>
+      <Name>TMCatalog.ViewModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml">

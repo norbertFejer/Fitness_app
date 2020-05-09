@@ -25,9 +25,10 @@
 
         <TextBox Grid.Row="0"
                  Grid.Column="0"
+                 Text="{Binding Path=SearchText, Mode=TwoWay}"
                  GotFocus="RemovePlaceholderText"
                  LostFocus="SetPlaceholderText"
-                 Text="{Binding SearchText}"/>
+                 TextChanged="Search"/>
 
         <Button Grid.Row="0"
                 Grid.Column="2"

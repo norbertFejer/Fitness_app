@@ -11,14 +11,22 @@ namespace TMCatalog.ViewModel.UserControls
 {
     public class ClientVM : ViewModelBase
     {
-        private const string placeholderText = "Search by name, card number or phone number...";
+        private string placeholderText = "Search by name, card number or phone number...";
         private List<Client> clientList;
         private Client selectedClient;
         private string searchText;
 
         public ClientVM()
         {
-            //TODO
+            this.SearchText = this.PlaceholderText;
+        }
+
+        public string PlaceholderText
+        {
+            get
+            {
+                return this.placeholderText;
+            }
         }
 
         public List<Client> ClientList
@@ -65,20 +73,26 @@ namespace TMCatalog.ViewModel.UserControls
 
         public void SearchClient()
         {
-            if (!String.IsNullOrEmpty(searchText) && !searchText.Equals(placeholderText))
+            if (String.IsNullOrEmpty(SearchText.Trim()) || SearchText.Equals(PlaceholderText))
             {
-                if (searchText.ElementAt(0).Equals("0"))
+                this.ClientList = Data.Catalog.GetAllClients();
+            }
+            else
+            {
+                if (SearchText.StartsWith("0"))
                 {
-                    this.ClientList = Data.Catalog.SearchClientByPhoneNumber(searchText);
-                }
-
-                if (int.TryParse(searchText, out int cardNumber))
-                {
-                    Data.Catalog.SearchClientByCardNumber(cardNumber);
+                    this.ClientList = Data.Catalog.SearchClientByPhoneNumber(SearchText);
                 }
                 else
                 {
-                    Data.Catalog.SearchClientByName(searchText.Trim());
+                    if (int.TryParse(SearchText, out int cardNumber))
+                    {
+                        this.ClientList = Data.Catalog.SearchClientByCardNumber(cardNumber);
+                    }
+                    else
+                    {
+                        this.ClientList = Data.Catalog.SearchClientByName(SearchText.Trim());
+                    }
                 }
             }
         }
