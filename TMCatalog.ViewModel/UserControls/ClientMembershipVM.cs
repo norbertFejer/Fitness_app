@@ -11,7 +11,7 @@ namespace TMCatalog.ViewModel.UserControls
 {
     public class ClientMembershipVM : ViewModelBase
     {
-        private string placeholderText = "Search by name, card number or phone number...";
+        private string placeholderText = "Search by name or card number...";
         private List<ClientMembership> clientMembershipList;
         private string searchText;
         private bool listInactiveMemberships;
@@ -30,7 +30,7 @@ namespace TMCatalog.ViewModel.UserControls
             }
         }
 
-        public List<ClientMembership> ClientList
+        public List<ClientMembership> ClientMembershipList
         {
             get
             {
@@ -77,17 +77,17 @@ namespace TMCatalog.ViewModel.UserControls
         {
             if (String.IsNullOrEmpty(SearchText.Trim()) || SearchText.Equals(PlaceholderText))
             {
-                //this.clientMembershipList = Data.Catalog.GetAllClientMemberships(listInactiveMemberships);
+                this.ClientMembershipList = Data.Catalog.GetAllClientMemberships(ListInactiveMemberships);
             }
             else
             {
                 if (int.TryParse(SearchText, out int cardNumber))
                 {
-                    //this.clientMembershipList = Data.Catalog.SearchClientMembershipByCardNumber(cardNumber, listInactiveMemberships);
+                    this.ClientMembershipList = Data.Catalog.SearchClientMembershipByCardNumber(cardNumber, ListInactiveMemberships);
                 }
                 else
                 {
-                    //this.clientMembershipList = Data.Catalog.SearchClientMembershipByName(SearchText.Trim(), listInactiveMemberships);
+                    this.ClientMembershipList = Data.Catalog.SearchClientMembershipByName(SearchText.Trim(), ListInactiveMemberships);
                 }
             }
         }

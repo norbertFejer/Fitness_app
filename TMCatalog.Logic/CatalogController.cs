@@ -101,7 +101,7 @@ namespace TMCatalog.Logic
 
         public List<Client> GetAllClients()
         {
-            return this.catalogDatabase.Clients.ToList();
+            return this.catalogDatabase.Clients.OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList();
         }
 
         public List<Client> SearchClientByPhoneNumber(string phoneNumber)
@@ -129,21 +129,61 @@ namespace TMCatalog.Logic
             return this.catalogDatabase.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
         }
 
-        public List<ClientMembership> GetAllClientMemberships()
+        public List<ClientMembership> GetAllClientMemberships(bool listInaciveMemberships)
         {
-            return this.catalogDatabase.ClientMemberships.ToList();
+            if (listInaciveMemberships)
+            {
+                return this.catalogDatabase.ClientMemberships.
+                    Include("Client").
+                    Include("Ticket").
+                    OrderBy(cm => cm.Client.FirstName).ThenBy(cm => cm.Client.LastName).ToList();
+            }
+            else
+            {
+                return this.catalogDatabase.ClientMemberships.
+                    Include("Client").
+                    Include("Ticket").
+                    Where(cm => cm.Active == true).
+                    OrderBy(cm => cm.Client.FirstName).ThenBy(cm => cm.Client.LastName).ToList();
+            }
         }
 
-        public List<ClientMembership> SearchClientMembershipByCardNumber(int cardNumber)
+        public List<ClientMembership> SearchClientMembershipByCardNumber(int cardNumber, bool listInaciveMemberships)
         {
-            return this.catalogDatabase.ClientMemberships.Where(cm => cm.Client.CardNumber == cardNumber).ToList();
+            if (listInaciveMemberships)
+            {
+                return this.catalogDatabase.ClientMemberships.
+                    Include("Client").
+                    Include("Ticket").
+                    Where(cm => cm.Client.CardNumber == cardNumber).ToList();
+            }
+            else
+            {
+                return this.catalogDatabase.ClientMemberships.
+                    Include("Client").
+                    Include("Ticket").
+                    Where(cm => cm.Client.CardNumber == cardNumber && cm.Active == true).ToList();
+            }
         }
 
-        public List<ClientMembership> SearchClientMembershipByName(string name)
+        public List<ClientMembership> SearchClientMembershipByName(string name, bool listInaciveMemberships)
         {
-            return this.catalogDatabase.ClientMemberships.
-                Where(cm => string.Concat(cm.Client.FirstName, " ", cm.Client.LastName).ToLower().Contains(name.ToLower())).
-                ToList();
+            if (listInaciveMemberships)
+            {
+                return this.catalogDatabase.ClientMemberships.
+                    Include("Client").
+                    Include("Ticket").
+                    Where(cm => string.Concat(cm.Client.FirstName, " ", cm.Client.LastName).ToLower().Contains(name.ToLower())).
+                    ToList();
+            }
+            else
+            {
+                return this.catalogDatabase.ClientMemberships.
+                    Include("Client").
+                    Include("Ticket").
+                    Where(cm => string.Concat(cm.Client.FirstName, " ", cm.Client.LastName).ToLower().Contains(name.ToLower()) && cm.Active == true).
+                    ToList();
+            }
         }
     }
 }
