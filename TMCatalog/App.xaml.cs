@@ -7,38 +7,38 @@
 
 namespace TMCatalog
 {
-  using System;
-    using System.Data.SqlClient;
+    using System;
     using System.Windows;
-  using TMCatalog.Common.MVVM;
-  using TMCatalog.Model.DBContext;
-  using TMCatalog.View;
-  using TMCatalog.ViewModel;
+    using TMCatalog.Common.MVVM;
+    using TMCatalog.Model.DBContext;
+    using TMCatalog.View;
+    using TMCatalog.ViewModel;
 
-  /// <summary>
-  /// Interaction logic for App.xaml
-  /// </summary>
-  public partial class App : Application
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
     {
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             this.Initialize();
             this.InitializeData();
-            this.OpenMainWindow();
+            this.OpenLoginWindow();
         }
         private void Initialize()
         {
             ViewService.RegisterView(typeof(MainWindowViewModel), typeof(MainWindow));
+            ViewService.RegisterView(typeof(LoginWindowViewModel), typeof(LoginWindow));
         }
 
-        private void OpenMainWindow()
+        private void OpenLoginWindow()
         {
-            MainWindow mainWindow = new MainWindow();
-            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+            LoginWindow loginWindow = new LoginWindow();
+            LoginWindowViewModel loginWindowViewModel = new LoginWindowViewModel();
 
-            ViewService.AddMainWindowToOpened(mainWindowViewModel, mainWindow);
-            ViewService.ShowDialog(mainWindowViewModel);
+            ViewService.AddMainWindowToOpened(loginWindowViewModel, loginWindow);
+            ViewService.ShowDialog(loginWindowViewModel);
         }
 
         private void InitializeData()

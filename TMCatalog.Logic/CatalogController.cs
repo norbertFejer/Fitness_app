@@ -121,6 +121,14 @@ namespace TMCatalog.Logic
                 ToList();
         }
 
+        ///Fitness app querrys
+        ///
+
+        public User GetUserByUsernameAndPassword(string username, string password)
+        {
+            return this.catalogDatabase.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
+        }
+
         public List<ClientMembership> GetAllClientMemberships()
         {
             return this.catalogDatabase.ClientMemberships.ToList();

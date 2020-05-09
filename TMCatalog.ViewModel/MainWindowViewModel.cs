@@ -7,9 +7,7 @@
 
 namespace TMCatalog.ViewModel
 {
-    using System.Collections.Generic;
     using TMCatalog.Common.MVVM;
-    using TMCatalog.Logic;
     using TMCatalog.ViewModel.UserControls;
     using TMCatalogClient.Model;
 
@@ -45,7 +43,7 @@ namespace TMCatalog.ViewModel
 
         public void CloseCommandExecute()
         {
-            ViewService.CloseDialog(this);
+          ViewService.CloseDialog(this);
         }
 
         public void SetAndOpenArticle(VehicleType selectedVehicle)
@@ -53,6 +51,8 @@ namespace TMCatalog.ViewModel
             this.SelectedTabIndex = 1;
             this.ArticleVM.VehicleType = selectedVehicle;
         }
+
+        public ArticleVM ArticleVM { get;  }
 
         public void SetAndOpenMembership(string name)
         {
