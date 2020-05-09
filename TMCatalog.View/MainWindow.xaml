@@ -21,26 +21,13 @@
 
         <TabControl Grid.Row="0" Grid.RowSpan="3"
                     SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
-            <TabItem Header="Vehicle Search">
+
+            <TabItem Header="Admission">
                 <TabItem.ContentTemplate>
                     <DataTemplate>
-                        <controls:VehicleSearch DataContext="{Binding DataContext.VehicleSearchVM, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></controls:VehicleSearch>
-                    </DataTemplate>
-                </TabItem.ContentTemplate>
-            </TabItem>
-            <TabItem Header="Article">
-                <TabItem.ContentTemplate>
-                    <DataTemplate>
-                        <controls:Article DataContext="{Binding DataContext.ArticleVM, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"></controls:Article>
-                    </DataTemplate>
-                </TabItem.ContentTemplate>
-            </TabItem>
-            <TabItem Header="Shopping Basket">
-                <TabItem.ContentTemplate>
-                    <DataTemplate>
-                        <controls:ShoppingBasket DataContext="{Binding DataContext.ShoppingBasketVM, 
+                        <controls:Admission DataContext="{Binding DataContext.AdmissionVM, 
                             RelativeSource={RelativeSource FindAncestor, 
-                            AncestorType={x:Type Window}}}"></controls:ShoppingBasket>
+                            AncestorType={x:Type Window}}}"></controls:Admission>
                     </DataTemplate>
                 </TabItem.ContentTemplate>
             </TabItem>
