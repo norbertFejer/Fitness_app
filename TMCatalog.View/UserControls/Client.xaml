@@ -7,6 +7,9 @@
              xmlns:converters="clr-namespace:TMCatalog.Common.Converters;assembly=TMCatalog.Common"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:DataGridRowNumberConverter x:Key="DataGridRowNumberConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -23,7 +26,8 @@
         <TextBox Grid.Row="0"
                  Grid.Column="0"
                  GotFocus="RemovePlaceholderText"
-                 LostFocus="SetPlaceholderText"/>
+                 LostFocus="SetPlaceholderText"
+                 Text="{Binding SearchText}"/>
 
         <Button Grid.Row="0"
                 Grid.Column="2"
@@ -49,17 +53,25 @@
                                     Binding="{Binding CardNumber}"/>
                 <DataGridTextColumn Header="E-mail Address"
                                     Width="*"
-                                    Binding="{Binding EmailAddress}"/>
+                                    Binding="{Binding Email}"/>
                 <DataGridTextColumn Header="Phone Number"
                                     Width="*"
                                     Binding="{Binding PhoneNumber}"/>
                 <DataGridTextColumn Header="Birth Date"
                                     Width="*"
                                     Binding="{Binding BirthDate}"/>
+                <DataGridTextColumn Header="Active"
+                                    Width="*"
+                                    Binding="{Binding Active}"/>
                 <DataGridTextColumn Header="Comment"
                                     Width="2*"
                                     Binding="{Binding Comment}"/>
             </DataGrid.Columns>
+            <DataGrid.RowHeaderTemplate>
+                <DataTemplate>
+                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource DataGridRowNumberConverter}}"/>
+                </DataTemplate>
+            </DataGrid.RowHeaderTemplate>
         </DataGrid>
 
         <Button Grid.Row="2"

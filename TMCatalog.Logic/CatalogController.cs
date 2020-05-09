@@ -9,6 +9,7 @@ namespace TMCatalog.Logic
 {
     using System.Collections.Generic;
     using System.Linq;
+    using TMCatalog.Model;
     using TMCatalog.Model.DBContext;
     using TMCatalogClient.Model;
 
@@ -96,6 +97,25 @@ namespace TMCatalog.Logic
         public Stock GetArticleStock(int articleID)
         {
             return this.catalogDatabase.Stocks.FirstOrDefault(s => s.ArticleId == articleID);
+        }
+
+
+
+        public List<Client> SearchClientByPhoneNumber(string phoneNumber)
+        {
+            return this.catalogDatabase.Clients.Where(c => c.PhoneNumber.Equals(phoneNumber)).ToList();
+        }
+
+        public List<Client> SearchClientByCardNumber(int cardNumber)
+        {
+            return this.catalogDatabase.Clients.Where(c => c.CardNumber == cardNumber).ToList();
+        }
+
+        public List<Client> SearchClientByName(string name)
+        {
+            return this.catalogDatabase.Clients.
+                Where(c => $"{c.FirstName} {c.LastName}".ToLower().Contains(name.ToLower())).
+                ToList();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace TMCatalog.View.UserControls
     /// </summary>
     public partial class Client : UserControl
     {
-        private const string placeholderText = "Search by name, email or phone number...";
+        private const string placeholderText = "Search by name, card number or phone number...";
 
         public Client()
         {
@@ -37,7 +37,7 @@ namespace TMCatalog.View.UserControls
 
         private void SetPlaceholderText(object sender, RoutedEventArgs e)
         {
-            if (((TextBox) sender).Text == null || ((TextBox) sender).Text.Trim().Equals(""))
+            if (String.IsNullOrEmpty(((TextBox) sender).Text.Trim()))
             {
                 ((TextBox) sender).Text = placeholderText;
             }
