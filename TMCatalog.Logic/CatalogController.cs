@@ -12,6 +12,7 @@ namespace TMCatalog.Logic
     using System.Collections.ObjectModel;
     using System.Data.Entity;
     using System.Linq;
+    using System.Runtime.Remoting.Contexts;
     using TMCatalog.Model;
     using TMCatalog.Model.DBContext;
     using TMCatalogClient.Model;
@@ -209,7 +210,7 @@ namespace TMCatalog.Logic
                                      c.Comment, 
                                      t.ValidityNumber,
                                      c.PhoneNumber,
-                                     cm.Id
+                                     ClientMembershipId = cm.Id
                                  }).ToList();
             }
             else
@@ -217,7 +218,8 @@ namespace TMCatalog.Logic
                 clientTickets = (from c in this.catalogDatabase.Clients
                                  join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
                                  join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
-                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) && (DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now)
+                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) && 
+                                    ( (DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now && t.ValidityNumber != -1) || (t.ValidityNumber == -1) )
                                  orderby c.FirstName, c.LastName ascending
                                  select new { 
                                      c.CardNumber, 
@@ -229,7 +231,7 @@ namespace TMCatalog.Logic
                                      c.Comment, 
                                      t.ValidityNumber,
                                      c.PhoneNumber,
-                                     cm.Id
+                                     ClientMembershipId = cm.Id
                                  }).ToList();
             }
 
@@ -258,7 +260,7 @@ namespace TMCatalog.Logic
                                      c.Comment,
                                      t.ValidityNumber,
                                      c.PhoneNumber,
-                                     cm.Id
+                                     ClientMembershipId = cm.Id
                                  }).ToList();
             }
             else
@@ -266,7 +268,8 @@ namespace TMCatalog.Logic
                 clientTickets = (from c in this.catalogDatabase.Clients
                                  join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
                                  join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
-                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) && (DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now) &&
+                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) &&
+                                    ((DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now && t.ValidityNumber != -1) || (t.ValidityNumber == -1)) &&
                                     ((c.FirstName + " " + c.LastName).ToLower().Contains(name.ToLower()))
                                  orderby c.FirstName, c.LastName ascending
                                  select new
@@ -280,7 +283,7 @@ namespace TMCatalog.Logic
                                      c.Comment,
                                      t.ValidityNumber,
                                      c.PhoneNumber,
-                                     cm.Id
+                                     ClientMembershipId = cm.Id
                                  }).ToList();
             }
 
@@ -309,7 +312,7 @@ namespace TMCatalog.Logic
                                      c.Comment,
                                      t.ValidityNumber,
                                      c.PhoneNumber,
-                                     cm.Id
+                                     ClientMembershipId = cm.Id
                                  }).ToList();
             }
             else
@@ -317,7 +320,8 @@ namespace TMCatalog.Logic
                 clientTickets = (from c in this.catalogDatabase.Clients
                                  join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
                                  join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
-                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) && (DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now) &&
+                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) &&
+                                    ((DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now && t.ValidityNumber != -1) || (t.ValidityNumber == -1)) &&
                                     c.PhoneNumber.Contains(phoneNumber)
                                  orderby c.PhoneNumber ascending
                                  select new
@@ -331,7 +335,7 @@ namespace TMCatalog.Logic
                                      c.Comment,
                                      t.ValidityNumber,
                                      c.PhoneNumber,
-                                     cm.Id
+                                     ClientMembershipId = cm.Id
                                  }).ToList();
             }
 
@@ -360,7 +364,7 @@ namespace TMCatalog.Logic
                                      c.Comment,
                                      t.ValidityNumber,
                                      c.PhoneNumber,
-                                     cm.Id
+                                     ClientMembershipId = cm.Id
                                  }).ToList();
             }
             else
@@ -368,7 +372,8 @@ namespace TMCatalog.Logic
                 clientTickets = (from c in this.catalogDatabase.Clients
                                  join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
                                  join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
-                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) && (DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now) &&
+                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) &&
+                                    ((DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now && t.ValidityNumber != -1) || (t.ValidityNumber == -1)) &&
                                     c.CardNumber.ToString().Contains(cardNumber)
                                  orderby c.CardNumber ascending
                                  select new
@@ -382,11 +387,57 @@ namespace TMCatalog.Logic
                                      c.Comment,
                                      t.ValidityNumber,
                                      c.PhoneNumber,
-                                     cm.Id
+                                     ClientMembershipId = cm.Id
                                  }).ToList();
             }
 
             return clientTickets.ToList();
+        }
+
+        public int DecreaseEntranceNumberByMembershipId(int membershipId)
+        {
+            ClientMembership tmp = this.catalogDatabase.ClientMemberships.Single(cm => cm.Id == membershipId);
+            tmp.EntranceLeft = (short)(tmp.EntranceLeft - 1);
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+        }
+
+        public int AddNewEntrance(int membershipId, DateTime arrivedTime)
+        {
+            Entrance newEntrance = new Entrance();
+
+            var tmp = GetLastEntranceId();
+            newEntrance.Id = GetLastEntranceId() + 1;
+            newEntrance.ClientMembershipId = membershipId;
+            newEntrance.ArrivedTime = arrivedTime;
+            newEntrance.LeftTime = arrivedTime;
+
+            this.catalogDatabase.Entrances.Add(newEntrance);
+
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+        }
+
+        private int GetLastEntranceId()
+        {
+            string lastId =  this.catalogDatabase.Entrances.OrderByDescending(e => e.Id).Select(e => e.Id).First().ToString();
+            return int.Parse(lastId);
         }
     }
 }

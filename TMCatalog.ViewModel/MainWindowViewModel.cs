@@ -43,7 +43,7 @@ namespace TMCatalog.ViewModel
 
         public void SetAndOpenMembership(string name)
         {
-            this.SelectedTabIndex = 3;
+            this.SelectedTabIndex = 2;
             this.ClientMembershipVM.SearchText = name;
         }
 

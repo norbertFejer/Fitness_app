@@ -46,7 +46,8 @@
                   ItemsSource="{Binding ClientsTicketsList}"
                   IsReadOnly="True"
                   AutoGenerateColumns="False"
-                  SelectedItem="{Binding SelectedItem}">
+                  SelectedItem="{Binding SelectedItem}"
+                  SelectionMode="Single">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Card number"
@@ -86,7 +87,7 @@
         <Button Grid.Row="2"
                 Grid.Column="2"
                 Content="Enter Client"
-                Command="{Binding EnterClient}"/>
+                Command="{Binding EnterClientCommand}"/>
 
     </Grid>
 
