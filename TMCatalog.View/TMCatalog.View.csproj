@@ -68,6 +68,9 @@
     <Compile Include="UserControls\Article.xaml.cs">
       <DependentUpon>Article.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Client.xaml.cs">
+      <DependentUpon>Client.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ShoppingBasket.xaml.cs">
       <DependentUpon>ShoppingBasket.xaml</DependentUpon>
     </Compile>
@@ -107,6 +110,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Article.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Client.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

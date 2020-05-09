@@ -50,6 +50,7 @@
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\ArticleVM.cs" />
+    <Compile Include="UserControls\ClientVM.cs" />
     <Compile Include="UserControls\ShoppingBasketVM.cs" />
     <Compile Include="UserControls\VehicleSearchVM.cs" />
   </ItemGroup>
