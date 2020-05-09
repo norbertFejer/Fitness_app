@@ -66,10 +66,6 @@
     <Compile Include="Migrations\201903041324355_TMCatalogDB.Designer.cs">
       <DependentUpon>201903041324355_TMCatalogDB.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202005081817359_FitnessApp.cs" />
-    <Compile Include="Migrations\202005081817359_FitnessApp.Designer.cs">
-      <DependentUpon>202005081817359_FitnessApp.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Product.cs" />
@@ -97,9 +93,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903041324355_TMCatalogDB.resx">
       <DependentUpon>201903041324355_TMCatalogDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005081817359_FitnessApp.resx">
-      <DependentUpon>202005081817359_FitnessApp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

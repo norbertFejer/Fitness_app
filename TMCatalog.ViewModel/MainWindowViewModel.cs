@@ -52,8 +52,6 @@ namespace TMCatalog.ViewModel
             this.ArticleVM.VehicleType = selectedVehicle;
         }
 
-        public ArticleVM ArticleVM { get;  }
-
         public void SetAndOpenMembership(string name)
         {
             this.SelectedTabIndex = 4;

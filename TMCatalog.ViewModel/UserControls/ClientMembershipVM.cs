@@ -77,17 +77,17 @@ namespace TMCatalog.ViewModel.UserControls
         {
             if (String.IsNullOrEmpty(SearchText.Trim()) || SearchText.Equals(PlaceholderText))
             {
-                this.clientMembershipList = Data.Catalog.GetAllClientMemberships(listInactiveMemberships);
+                //this.clientMembershipList = Data.Catalog.GetAllClientMemberships(listInactiveMemberships);
             }
             else
             {
                 if (int.TryParse(SearchText, out int cardNumber))
                 {
-                    this.clientMembershipList = Data.Catalog.SearchClientMembershipByCardNumber(cardNumber, listInactiveMemberships);
+                    //this.clientMembershipList = Data.Catalog.SearchClientMembershipByCardNumber(cardNumber, listInactiveMemberships);
                 }
                 else
                 {
-                    this.clientMembershipList = Data.Catalog.SearchClientMembershipByName(SearchText.Trim(), listInactiveMemberships);
+                    //this.clientMembershipList = Data.Catalog.SearchClientMembershipByName(SearchText.Trim(), listInactiveMemberships);
                 }
             }
         }
