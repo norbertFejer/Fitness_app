@@ -76,9 +76,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TMCatalog.Common\FitnessApp.Common.csproj">
+    <ProjectReference Include="..\TMCatalog.Common\TMCatalog.Common.csproj">
       <Project>{224cee88-e6e8-4e07-bc30-7961b0a0b332}</Project>
-      <Name>FitnessApp.Common</Name>
+      <Name>TMCatalog.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

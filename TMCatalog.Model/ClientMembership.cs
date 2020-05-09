@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace TMCatalog.Model
 {
@@ -10,13 +15,19 @@ namespace TMCatalog.Model
 
         public int ClientId { get; set; }
 
+        public Client Client { get; set; }
+
         public int TicketId { get; set; }
+
+        public Ticket Ticket { get; set; }
 
         public DateTime ValidAfter { get; set; }
 
-        public int EntranceLeft { get; set; }
+        public short EntranceLeft { get; set; }
 
-        public int SoldBy { get; set; }
+        public int UserId { get; set; }
+
+        public User User { get; set; }
 
         public DateTime SoldOn { get; set; }
 

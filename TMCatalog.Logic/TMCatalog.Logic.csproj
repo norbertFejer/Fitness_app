@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D71072FC-85D6-4760-80FE-B6ED900450FB}</ProjectGuid>
+    <ProjectGuid>{4258A4AE-2716-45E4-9A6F-8A2BE9F7F033}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TMCatalog.ViewModel</RootNamespace>
-    <AssemblyName>TMCatalog.ViewModel</AssemblyName>
+    <RootNamespace>TMCatalog.Logic</RootNamespace>
+    <AssemblyName>TMCatalog.Logic</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -35,7 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,26 +52,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="CatalogController.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserControls\ArticleVM.cs" />
-    <Compile Include="UserControls\ClientVM.cs" />
-    <Compile Include="UserControls\ShoppingBasketVM.cs" />
-    <Compile Include="UserControls\VehicleSearchVM.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TMCatalog.Common\FitnessApp.Common.csproj">
-      <Project>{224cee88-e6e8-4e07-bc30-7961b0a0b332}</Project>
-      <Name>FitnessApp.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TMCatalog.Logic\FitnessApp.Logic.csproj">
-      <Project>{4258a4ae-2716-45e4-9a6f-8a2be9f7f033}</Project>
-      <Name>FitnessApp.Logic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TMCatalog.Model\FitnessApp.Model.csproj">
+    <ProjectReference Include="..\TMCatalog.Model\TMCatalog.Model.csproj">
       <Project>{a08a316e-8b35-4ef9-ad9d-a54884607512}</Project>
-      <Name>FitnessApp.Model</Name>
+      <Name>TMCatalog.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

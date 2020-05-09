@@ -9,7 +9,8 @@ namespace TMCatalog.Model.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
+            ContextKey = "TMCatalog.Model.DBContext.TMCatalogDB";
         }
 
         protected override void Seed(TMCatalog.Model.DBContext.TMCatalogDB context)

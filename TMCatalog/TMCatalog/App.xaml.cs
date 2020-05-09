@@ -8,8 +8,7 @@
 namespace TMCatalog
 {
   using System;
-    using System.Data.SqlClient;
-    using System.Windows;
+  using System.Windows;
   using TMCatalog.Common.MVVM;
   using TMCatalog.Model.DBContext;
   using TMCatalog.View;
@@ -44,7 +43,8 @@ namespace TMCatalog
         private void InitializeData()
         {
             try
-            {
+            
+                {
                 DBInitializer dbinit = new DBInitializer();
                 dbinit.InitializeDatabase(new TMCatalogDB());
             }
