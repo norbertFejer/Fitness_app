@@ -44,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -55,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="ClientMembership.cs" />
     <Compile Include="DBContext\DBInitializer.cs" />
     <Compile Include="DBContext\TMCatalogDB.cs" />
     <Compile Include="FuelType.cs" />

@@ -44,6 +44,15 @@
                     </DataTemplate>
                 </TabItem.ContentTemplate>
             </TabItem>
+            <TabItem Header="Clients">
+                <TabItem.ContentTemplate>
+                    <DataTemplate>
+                        <controls:Client DataContext="{Binding DataContext.ClientVM, 
+                            RelativeSource={RelativeSource FindAncestor, 
+                            AncestorType={x:Type Window}}}"></controls:Client>
+                    </DataTemplate>
+                </TabItem.ContentTemplate>
+            </TabItem>
         </TabControl>
 
         <Button Grid.Row="3"

@@ -60,7 +60,7 @@
                 <DataGridTextColumn Header="Type" Width="3*" Binding="{Binding Description}"></DataGridTextColumn>
                 <DataGridTextColumn Header="FuelType" Width="40" Binding="{Binding FuelType.Description}"></DataGridTextColumn>
                 <DataGridTextColumn Header="From" Width="40" Binding="{Binding ProductionYearFrom}"></DataGridTextColumn>
-                <DataGridTextColumn Header="To" Width="40" Binding="{Binding ProductionYearTo}"></DataGridTextColumn>
+                <DataGridTextColumn Header="To" Width="40" Binding="{Binding ClientId}"></DataGridTextColumn>
             </DataGrid.Columns>
             <DataGrid.RowHeaderTemplate>
                 <DataTemplate>
