@@ -109,7 +109,7 @@ namespace TMCatalog.View
 
             ViewService.CloseDialog((LoginWindowViewModel)this.DataContext);
 
-            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel(currentUser.FirstName + " " + currentUser.LastName, currentUser.Type);
 
             ViewService.AddMainWindowToOpened(mainWindowViewModel, mainWindow);
             ViewService.ShowDialog(mainWindowViewModel);

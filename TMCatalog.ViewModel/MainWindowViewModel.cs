@@ -10,26 +10,44 @@ namespace TMCatalog.ViewModel
     using TMCatalog.Common.MVVM;
     using TMCatalog.ViewModel.UserControls;
     using TMCatalogClient.Model;
+    using static System.Net.Mime.MediaTypeNames;
 
     public class MainWindowViewModel : ViewModelBase
     {
 
         private int selectedTabIndex;
+        private string userName;
+        private short userType;
+        private string reportTabVisibility;
         public static MainWindowViewModel Instance { get; private set; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(string userName, short userType)
         {
             Instance = this;
+            this.UserName = userName;
+            this.UserType = userType;
+
             this.CloseCommand = new RelayCommand(this.CloseCommandExecute);
+            this.LogOutCommand = new RelayCommand(this.LogOutCommandExecute);
             this.selectedTabIndex = 0;
 
             this.AdmissionVM = new AdmissionVM();
             this.ClientVM = new ClientVM();
             this.ClientMembershipVM = new ClientMembershipVM();
-            this.ReportVM = new ReportVM();
+
+            if (UserType == 1)
+            {
+                this.ReportVM = new ReportVM();
+            }
+            else
+            {
+                ReportTabVisibility = "Hidden";
+            }
         }
 
         public RelayCommand CloseCommand { get; set; }
+
+        public RelayCommand LogOutCommand { get; set; }
 
         public ClientVM ClientVM { get; }
 
@@ -41,7 +59,12 @@ namespace TMCatalog.ViewModel
 
         public void CloseCommandExecute()
         {
-          ViewService.CloseDialog(this);
+            ViewService.CloseDialog(this);
+        }
+
+        public void LogOutCommandExecute()
+        {
+            
         }
 
         public void SetAndOpenMembership(string name)
@@ -66,6 +89,47 @@ namespace TMCatalog.ViewModel
             set
             {
                 this.selectedTabIndex = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
+        public string UserName
+        {
+            get
+            {
+                return this.userName;
+            }
+
+            set
+            {
+                this.userName = value;
+                this.RaisePropertyChanged();
+            }
+        }
+        public short UserType
+        {
+            get
+            {
+                return this.userType;
+            }
+
+            set
+            {
+                this.userType = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
+        public string ReportTabVisibility
+        {
+            get
+            {
+                return this.reportTabVisibility;
+            }
+
+            set
+            {
+                this.reportTabVisibility = value;
                 this.RaisePropertyChanged();
             }
         }

@@ -444,7 +444,7 @@ namespace TMCatalog.Logic
         {
             List<string> clients = (from c in this.catalogDatabase.Clients
                                     orderby c.FirstName, c.LastName ascending
-                                    select c.FirstName + " " + c.LastName).ToList();
+                                    select c.FirstName + " " + c.LastName).Distinct().ToList();
 
             return clients;
         }
@@ -461,6 +461,51 @@ namespace TMCatalog.Logic
             List<string> ticketTypes = this.catalogDatabase.Tickets.OrderBy(t => t.Type).Select(t => t.Type).Distinct().ToList();
 
             return ticketTypes;
+        }
+
+        public List<object> GetReportClientsList()
+        {
+            IEnumerable<object> clientList = (from c in this.catalogDatabase.Clients
+                                                orderby c.FirstName, c.LastName ascending
+                                              select new
+                                              {
+                                                  Name = c.FirstName + " " + c.LastName,
+                                                  c.CardNumber,
+                                                  c.Cnp,
+                                                  c.PhoneNumber,
+                                                  c.Email,
+                                                  Gender = (
+                                                                c.Gender == 0 ? "Female" :
+                                                                c.Gender == 1 ? "Male" : "Unknown"
+                                                            ),
+                                                  c.BirthDate,
+                                                  c.RegisteredDate,
+                                                  c.Comment
+                                              }).ToList();
+            return clientList.ToList();
+        }
+
+        public List<object> GetReportTicketsList()
+        {
+            IEnumerable<object> ticketList = (from c in this.catalogDatabase.Clients
+                                              join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
+                                              join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
+                                              orderby c.FirstName, c.LastName ascending
+                                              select new
+                                              {
+                                                  Name = c.FirstName + " " + c.LastName,
+                                                  c.CardNumber,
+                                                  t.Type,
+                                                  Active = (
+                                                                cm.Active == true ? "Active" :
+                                                                cm.Active == false ? "Inactive" : "Unknown"
+                                                            ),
+                                                  cm.ValidAfter,
+                                                  cm.EntranceLeft,
+                                                  cm.SoldOn, 
+                                                  cm.Price
+                                              }).ToList();
+            return ticketList.ToList();
         }
     }
 }
