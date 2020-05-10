@@ -27,6 +27,7 @@ namespace TMCatalog.ViewModel
             this.ClientVM = new ClientVM();
             this.ClientMembershipVM = new ClientMembershipVM();
             this.ReportVM = new ReportVM();
+            this.TicketVM = new TicketVM();
         }
 
         public RelayCommand CloseCommand { get; set; }
@@ -38,6 +39,8 @@ namespace TMCatalog.ViewModel
         public ReportVM ReportVM { get; }
 
         public ClientMembershipVM ClientMembershipVM { get; }
+
+        public TicketVM TicketVM { get; }
 
         public void CloseCommandExecute()
         {

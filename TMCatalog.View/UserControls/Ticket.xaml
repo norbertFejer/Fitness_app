@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TMCatalog.View.UserControls.Client"
+﻿<UserControl x:Class="TMCatalog.View.UserControls.Ticket"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,6 +10,9 @@
     <UserControl.Resources>
         <converters:DataGridRowNumberConverter x:Key="DataGridRowNumberConverter"/>
         <converters:DateTimeConverter x:Key="DateTimeConverter"/>
+        <converters:EntranceConverter x:Key="EntranceConverter"></converters:EntranceConverter>
+        <converters:ValidityNumberConverter x:Key="ValidityNumberConverter"></converters:ValidityNumberConverter>
+        <converters:ValidityConverter x:Key="ValidityConverter"></converters:ValidityConverter>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -33,43 +36,67 @@
 
         <Button Grid.Row="0"
                 Grid.Column="2"
-                Content="New Client"
-                Click="OpenAddNewClientWindowExecute"/>
+                Content="New Ticket"
+                Click="OpenAddNewTicketWindowExecute"/>
 
         <DataGrid Grid.Row="1"
                   Grid.ColumnSpan="3"
                   Margin="5"
-                  ItemsSource="{Binding ClientList}"
-                  IsReadOnly="True"
-                  AutoGenerateColumns="False"
-                  SelectedItem="{Binding SelectedClient}"
+                  ItemsSource="{Binding TicketList}"
+                  SelectedItem="{Binding SelectedTicket}"
                   SelectionMode="Single"
-                  MouseDoubleClick="OpenEditClientDataWindowExecute">
+                  IsReadOnly="True"
+                  AutoGenerateColumns="False">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="First Name"
+                <DataGridTextColumn Header="Type"
                                     Width="*"
-                                    Binding="{Binding FirstName}"/>
-                <DataGridTextColumn Header="Last Name"
-                                    Width="*"
-                                    Binding="{Binding LastName}"/>
-                <DataGridTextColumn Header="Card Number"
-                                    Width="*"
-                                    Binding="{Binding CardNumber}"/>
-                <DataGridTextColumn Header="E-mail Address"
-                                    Width="*"
-                                    Binding="{Binding Email}"/>
-                <DataGridTextColumn Header="Phone Number"
-                                    Width="*"
-                                    Binding="{Binding PhoneNumber}"/>
-                <DataGridTextColumn Header="Birth Date"
+                                    Binding="{Binding Type}"/>
+
+                <DataGridTextColumn Header="Validity (days)"
                                     Width="*">
                     <DataGridTextColumn.Binding>
-                        <MultiBinding Converter="{StaticResource DateTimeConverter}">
-                            <Binding Path="BirthDate"/>
+                        <MultiBinding Converter="{StaticResource ValidityConverter}">
+                            <Binding Path="ValidityNumber"/>
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Max Entrance"
+                                    Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource EntranceConverter}">
+                            <Binding Path="MaxEntrance"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Price"
+                                    Width="*"
+                                    Binding="{Binding Price}"/>
+
+                <DataGridTextColumn Header="Discount"
+                                    Width="*"
+                                    Binding="{Binding Discount}"/>
+
+                <DataGridTextColumn Header="Discount From"
+                                    Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource DateTimeConverter}">
+                            <Binding Path="DiscountFrom"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Discount Until"
+                                    Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource DateTimeConverter}">
+                            <Binding Path="DiscountUntil"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                
                 <DataGridTextColumn Header="Active"
                                     Width="*"
                                     Binding="{Binding Active}"/>
@@ -77,21 +104,16 @@
                                     Width="2*"
                                     Binding="{Binding Comment}"/>
             </DataGrid.Columns>
-            <DataGrid.RowHeaderTemplate>
-                <DataTemplate>
-                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource DataGridRowNumberConverter}}"/>
-                </DataTemplate>
-            </DataGrid.RowHeaderTemplate>
         </DataGrid>
 
         <Button Grid.Row="2"
                 Grid.Column="1"
-                Content="Add New Ticket"
-                Click="OpenSellTicketWindowExecute"/>
+                Content="Add Discount"
+                Click="OpenAddDiscountWindowExecute"/>
 
         <Button Grid.Row="2"
                 Grid.Column="2"
-                Content="View Membership"
-                Command="{Binding OpenClientMembershipTabCommand}"/>
+                Content="Delete Ticket"
+                Command="{Binding DeleteTicketCommand}"/>
     </Grid>
 </UserControl>

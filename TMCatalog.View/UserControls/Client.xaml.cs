@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TMCatalog.Common.MVVM;
 using TMCatalog.ViewModel;
 using TMCatalog.ViewModel.UserControls;
 
@@ -52,6 +53,36 @@ namespace TMCatalog.View.UserControls
         {
             clientVM.SearchText = ((TextBox)sender).Text;
             clientVM.SearchClient();
+        }
+
+        private void OpenAddNewClientWindowExecute(object obj, RoutedEventArgs e)
+        {
+            AddNewClientWindow addNewClientWindow = new AddNewClientWindow();
+            AddNewClientWindowViewModel addNewClientWindowViewModel = new AddNewClientWindowViewModel();
+
+            ViewService.RegisterView(addNewClientWindowViewModel.GetType(), addNewClientWindow.GetType());
+            ViewService.AddMainWindowToOpened(addNewClientWindowViewModel, addNewClientWindow);
+            ViewService.ShowDialog(addNewClientWindowViewModel);
+        }
+
+        private void OpenEditClientDataWindowExecute(object obj, RoutedEventArgs e)
+        {
+            EditClientDataWindow editClientDataWindow = new EditClientDataWindow();
+            EditClientDataWindowViewModel editClientDataWindowViewModel = new EditClientDataWindowViewModel(this.clientVM.SelectedClient);
+
+            ViewService.RegisterView(editClientDataWindowViewModel.GetType(), editClientDataWindow.GetType());
+            ViewService.AddMainWindowToOpened(editClientDataWindowViewModel, editClientDataWindow);
+            ViewService.ShowDialog(editClientDataWindowViewModel);
+        }
+
+        private void OpenSellTicketWindowExecute(object obj, RoutedEventArgs e)
+        {
+            SellTicketWindow sellTicketWindow = new SellTicketWindow();
+            SellTicketWindowViewModel sellTicketWindowViewModel = new SellTicketWindowViewModel(this.clientVM.SelectedClient);
+
+            ViewService.RegisterView(sellTicketWindowViewModel.GetType(), sellTicketWindow.GetType());
+            ViewService.AddMainWindowToOpened(sellTicketWindowViewModel, sellTicketWindow);
+            ViewService.ShowDialog(sellTicketWindowViewModel);
         }
     }
 }

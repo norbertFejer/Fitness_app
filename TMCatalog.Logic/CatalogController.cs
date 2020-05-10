@@ -462,6 +462,143 @@ namespace TMCatalog.Logic
 
             return ticketTypes;
         }
+
+        public int GetMaxId()
+        {
+            return this.catalogDatabase.Clients.Max(c => c.Id);
+        }
+
+        public bool CardNumberExists(int cardNumber)
+        {
+            if (this.catalogDatabase.Clients.Count(c => c.CardNumber == cardNumber) == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public int AddClient(Client client)
+        { 
+            this.catalogDatabase.Clients.Add(client);
+
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+
+        }
+
+        public int EditClient(Client client)
+        {
+            Client temp = this.catalogDatabase.Clients.Single(c => c.Id == client.Id);
+            temp.Active = client.Active;
+            temp.BirthDate = client.BirthDate;
+            temp.CardNumber = client.CardNumber;
+            temp.Cnp = client.Cnp;
+            temp.Comment = client.Comment;
+            temp.Email = client.Email;
+            temp.FirstName = client.FirstName;
+            temp.Gender = client.Gender;
+            temp.LastName = client.LastName;
+            temp.PhoneNumber = client.PhoneNumber;
+            temp.Photo = client.Photo;
+            temp.RegisteredDate = client.RegisteredDate;
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+        }
+
+        public int RemoveClient(int id)
+        {
+            Client temp = this.catalogDatabase.Clients.Single(c => c.Id == id);
+            temp.Active = false;
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+        }
+
+        public List<Ticket> GetTickets()
+        {
+            return this.catalogDatabase.Tickets.ToList();
+        }
+
+        public int AddClientMembership(ClientMembership clientMembership)
+        {
+            this.catalogDatabase.ClientMemberships.Add(clientMembership);
+
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+
+        }
+
+
+        public List<Ticket> SearchTicketByType(string type)
+        {
+            return this.catalogDatabase.Tickets.Where(t => t.Type.Contains(type)).ToList();
+        }
+
+        public int RemoveTicket(int id)
+        {
+            Ticket temp = this.catalogDatabase.Tickets.Single(t => t.Id == id);
+            temp.Active = false;
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+        }
+
+        public int AddDiscount(int id, float discount, DateTime beginDate, DateTime endDate)
+        {
+            Ticket temp = this.catalogDatabase.Tickets.Single(t => t.Id == id);
+            temp.Discount = discount;
+            temp.DiscountFrom = beginDate;
+            temp.DiscountUntil = endDate;
+
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+        }
     }
 }
     

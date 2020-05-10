@@ -58,6 +58,15 @@
                     </DataTemplate>
                 </TabItem.ContentTemplate>
             </TabItem>
+            <TabItem Header="Tickets">
+                <TabItem.ContentTemplate>
+                    <DataTemplate>
+                        <controls:Ticket DataContext="{Binding DataContext.TicketVM, 
+                            RelativeSource={RelativeSource FindAncestor, 
+                            AncestorType={x:Type Window}}}"></controls:Ticket>
+                    </DataTemplate>
+                </TabItem.ContentTemplate>
+            </TabItem>
         </TabControl>
 
         <Button Grid.Row="3"

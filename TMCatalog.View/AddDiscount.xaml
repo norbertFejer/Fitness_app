@@ -1,0 +1,70 @@
+﻿<Window x:Class="TMCatalog.View.AddDiscount"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TMCatalog.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" MaxWidth="400" MaxHeight="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="1"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Center"
+               Content="Discount"/>
+
+        <TextBox Grid.Row="2"
+                  Grid.ColumnSpan="2"
+                  Margin="5"
+                  Text="{Binding Discount, Mode=OneWayToSource}"/>
+
+        <Label Grid.Row="3"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Center"
+               Content="Select Begin Date"/>
+
+        <DatePicker Grid.Row="4"
+                 Grid.ColumnSpan="2"
+                 Name="ValidAfterDatePicker"
+                 Margin="5"
+                 SelectedDate="{Binding BeginDate, Mode=OneWayToSource}"/>
+
+        <Label Grid.Row="5"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Center"
+               Content="Select End Date"/>
+
+        <DatePicker Grid.Row="6"
+                 Grid.ColumnSpan="2"
+                 Name="ValidUntilDatePicker"
+                 Margin="5"
+                 SelectedDate="{Binding EndDate, Mode=OneWayToSource}"/>
+
+        <Button Grid.Row="8"
+                Grid.Column="0"
+                Content="Ok"
+                Margin="5"
+                Command="{Binding OkCommand}"/>
+
+        <Button Grid.Row="8"
+                Grid.Column="1"
+                Content="Cancel"
+                Margin="5"
+                Command="{Binding CancelCommand}"/>
+    </Grid>
+</Window>
