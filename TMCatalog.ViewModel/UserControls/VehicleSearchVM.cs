@@ -21,7 +21,7 @@ namespace TMCatalog.ViewModel.UserControls
         {
             this.Manufacturers = Data.Catalog.GetManufacturers();
             this.ManufacturerID = this.manufacturers?.FirstOrDefault().Id ?? -1;
-            this.OpenArticleTabCommand = new RelayCommand(this.OpenArticleTabExecute);
+            //this.OpenArticleTabCommand = new RelayCommand(this.OpenArticleTabExecute);
         }
 
         public List<Manufacturer> Manufacturers
@@ -117,12 +117,5 @@ namespace TMCatalog.ViewModel.UserControls
 
         public RelayCommand OpenArticleTabCommand { get; private set; }
 
-        private void OpenArticleTabExecute()
-        {
-            if (this.SelectedVehicle != null)
-            {
-                MainWindowViewModel.Instance.SetAndOpenArticle(this.selectedVehicle);
-            }
-        }
     }
 }

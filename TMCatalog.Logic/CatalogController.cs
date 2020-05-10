@@ -7,8 +7,12 @@
 
 namespace TMCatalog.Logic
 {
+    using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Data.Entity;
     using System.Linq;
+    using System.Runtime.Remoting.Contexts;
     using TMCatalog.Model;
     using TMCatalog.Model.DBContext;
     using TMCatalogClient.Model;
@@ -70,11 +74,11 @@ namespace TMCatalog.Logic
 
             if (vehicleTypeProducts.Count() > 0)
             {
-                foreach(IGrouping<ProductGroup, VehicleTypeProducts> item in vehicleTypeProducts.GroupBy(p => p.Product.ProductGroup)){
+                foreach (IGrouping<ProductGroup, VehicleTypeProducts> item in vehicleTypeProducts.GroupBy(p => p.Product.ProductGroup)) {
                     ProductGroup productGroup = item.Key;
                     productGroup.Products = new List<Product>();
 
-                    foreach(VehicleTypeProducts vtp in item)
+                    foreach (VehicleTypeProducts vtp in item)
                     {
                         productGroup.Products.Add(vtp.Product);
                     }
@@ -99,6 +103,9 @@ namespace TMCatalog.Logic
             return this.catalogDatabase.Stocks.FirstOrDefault(s => s.ArticleId == articleID);
         }
 
+        ///Fitness app querrys
+        ///
+
         public List<Client> GetAllClients()
         {
             return this.catalogDatabase.Clients.OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList();
@@ -120,9 +127,6 @@ namespace TMCatalog.Logic
                 Where(c => string.Concat(c.FirstName, " ", c.LastName).ToLower().Contains(name.ToLower())).
                 ToList();
         }
-
-        ///Fitness app querrys
-        ///
 
         public User GetUserByUsernameAndPassword(string username, string password)
         {
@@ -184,6 +188,279 @@ namespace TMCatalog.Logic
                     Where(cm => string.Concat(cm.Client.FirstName, " ", cm.Client.LastName).ToLower().Contains(name.ToLower()) && cm.Active == true).
                     ToList();
             }
+        }
+
+        public List<object> GetAllClientTicketsList(bool listInactiveTicketAlso) 
+        {
+            IEnumerable<object> clientTickets;
+
+            if (listInactiveTicketAlso)
+            {
+                clientTickets = (from c in this.catalogDatabase.Clients
+                                 join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
+                                 join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
+                                 orderby c.FirstName, c.LastName ascending
+                                 select new { 
+                                     c.CardNumber, 
+                                     c.FirstName,
+                                     c.LastName, 
+                                     TicketType = t.Type, 
+                                     ValidUntil = DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber), 
+                                     cm.EntranceLeft, 
+                                     c.Comment, 
+                                     t.ValidityNumber,
+                                     c.PhoneNumber,
+                                     ClientMembershipId = cm.Id
+                                 }).ToList();
+            }
+            else
+            {
+                clientTickets = (from c in this.catalogDatabase.Clients
+                                 join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
+                                 join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
+                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) && 
+                                    ( (DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now && t.ValidityNumber != -1) || (t.ValidityNumber == -1) )
+                                 orderby c.FirstName, c.LastName ascending
+                                 select new { 
+                                     c.CardNumber, 
+                                     c.FirstName, 
+                                     c.LastName, 
+                                     TicketType = t.Type, 
+                                     ValidUntil = DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber), 
+                                     cm.EntranceLeft, 
+                                     c.Comment, 
+                                     t.ValidityNumber,
+                                     c.PhoneNumber,
+                                     ClientMembershipId = cm.Id
+                                 }).ToList();
+            }
+
+            return clientTickets.ToList();
+        }
+
+        public List<object> GetClientTicketsListByName(bool listInactiveTicketAlso, string name)
+        {
+            IEnumerable<object> clientTickets;
+
+            if (listInactiveTicketAlso)
+            {
+                clientTickets = (from c in this.catalogDatabase.Clients
+                                 join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
+                                 join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
+                                 where (c.FirstName + " " + c.LastName).ToLower().Contains(name.ToLower())
+                                 orderby c.FirstName, c.LastName ascending
+                                 select new
+                                 {
+                                     c.CardNumber,
+                                     c.FirstName,
+                                     c.LastName,
+                                     TicketType = t.Type,
+                                     ValidUntil = DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber),
+                                     cm.EntranceLeft,
+                                     c.Comment,
+                                     t.ValidityNumber,
+                                     c.PhoneNumber,
+                                     ClientMembershipId = cm.Id
+                                 }).ToList();
+            }
+            else
+            {
+                clientTickets = (from c in this.catalogDatabase.Clients
+                                 join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
+                                 join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
+                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) &&
+                                    ((DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now && t.ValidityNumber != -1) || (t.ValidityNumber == -1)) &&
+                                    ((c.FirstName + " " + c.LastName).ToLower().Contains(name.ToLower()))
+                                 orderby c.FirstName, c.LastName ascending
+                                 select new
+                                 {
+                                     c.CardNumber,
+                                     c.FirstName,
+                                     c.LastName,
+                                     TicketType = t.Type,
+                                     ValidUntil = DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber),
+                                     cm.EntranceLeft,
+                                     c.Comment,
+                                     t.ValidityNumber,
+                                     c.PhoneNumber,
+                                     ClientMembershipId = cm.Id
+                                 }).ToList();
+            }
+
+            return clientTickets.ToList();
+        }
+
+        public List<object> GetClientTicketsListByPhoneNumber(bool listInactiveTicketAlso, string phoneNumber)
+        {
+            IEnumerable<object> clientTickets;
+
+            if (listInactiveTicketAlso)
+            {
+                clientTickets = (from c in this.catalogDatabase.Clients
+                                 join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
+                                 join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
+                                 where c.PhoneNumber.Contains(phoneNumber)
+                                 orderby c.PhoneNumber ascending
+                                 select new
+                                 {
+                                     c.CardNumber,
+                                     c.FirstName,
+                                     c.LastName,
+                                     TicketType = t.Type,
+                                     ValidUntil = DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber),
+                                     cm.EntranceLeft,
+                                     c.Comment,
+                                     t.ValidityNumber,
+                                     c.PhoneNumber,
+                                     ClientMembershipId = cm.Id
+                                 }).ToList();
+            }
+            else
+            {
+                clientTickets = (from c in this.catalogDatabase.Clients
+                                 join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
+                                 join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
+                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) &&
+                                    ((DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now && t.ValidityNumber != -1) || (t.ValidityNumber == -1)) &&
+                                    c.PhoneNumber.Contains(phoneNumber)
+                                 orderby c.PhoneNumber ascending
+                                 select new
+                                 {
+                                     c.CardNumber,
+                                     c.FirstName,
+                                     c.LastName,
+                                     TicketType = t.Type,
+                                     ValidUntil = DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber),
+                                     cm.EntranceLeft,
+                                     c.Comment,
+                                     t.ValidityNumber,
+                                     c.PhoneNumber,
+                                     ClientMembershipId = cm.Id
+                                 }).ToList();
+            }
+
+            return clientTickets.ToList();
+        }
+
+        public List<object> GetClientTicketsListByCardNumber(bool listInactiveTicketAlso, string cardNumber)
+        {
+            IEnumerable<object> clientTickets;
+
+            if (listInactiveTicketAlso)
+            {
+                clientTickets = (from c in this.catalogDatabase.Clients
+                                 join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
+                                 join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
+                                 where c.CardNumber.ToString().Contains(cardNumber)
+                                 orderby c.CardNumber ascending
+                                 select new
+                                 {
+                                     c.CardNumber,
+                                     c.FirstName,
+                                     c.LastName,
+                                     TicketType = t.Type,
+                                     ValidUntil = DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber),
+                                     cm.EntranceLeft,
+                                     c.Comment,
+                                     t.ValidityNumber,
+                                     c.PhoneNumber,
+                                     ClientMembershipId = cm.Id
+                                 }).ToList();
+            }
+            else
+            {
+                clientTickets = (from c in this.catalogDatabase.Clients
+                                 join cm in this.catalogDatabase.ClientMemberships on c.Id equals cm.TicketId
+                                 join t in this.catalogDatabase.Tickets on cm.TicketId equals t.Id
+                                 where (cm.EntranceLeft > 0 || cm.EntranceLeft == -1) &&
+                                    ((DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber) >= DateTime.Now && t.ValidityNumber != -1) || (t.ValidityNumber == -1)) &&
+                                    c.CardNumber.ToString().Contains(cardNumber)
+                                 orderby c.CardNumber ascending
+                                 select new
+                                 {
+                                     c.CardNumber,
+                                     c.FirstName,
+                                     c.LastName,
+                                     TicketType = t.Type,
+                                     ValidUntil = DbFunctions.AddDays(cm.ValidAfter, t.ValidityNumber),
+                                     cm.EntranceLeft,
+                                     c.Comment,
+                                     t.ValidityNumber,
+                                     c.PhoneNumber,
+                                     ClientMembershipId = cm.Id
+                                 }).ToList();
+            }
+
+            return clientTickets.ToList();
+        }
+
+        public int DecreaseEntranceNumberByMembershipId(int membershipId)
+        {
+            ClientMembership tmp = this.catalogDatabase.ClientMemberships.Single(cm => cm.Id == membershipId);
+            tmp.EntranceLeft = (short)(tmp.EntranceLeft - 1);
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+        }
+
+        public int AddNewEntrance(int membershipId, DateTime arrivedTime)
+        {
+            Entrance newEntrance = new Entrance();
+
+            var tmp = GetLastEntranceId();
+            newEntrance.Id = GetLastEntranceId() + 1;
+            newEntrance.ClientMembershipId = membershipId;
+            newEntrance.ArrivedTime = arrivedTime;
+            newEntrance.LeftTime = arrivedTime;
+
+            this.catalogDatabase.Entrances.Add(newEntrance);
+
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+        }
+
+        private int GetLastEntranceId()
+        {
+            string lastId =  this.catalogDatabase.Entrances.OrderByDescending(e => e.Id).Select(e => e.Id).First().ToString();
+            return int.Parse(lastId);
+        }
+
+        public List<string> GetAllClientName()
+        {
+            List<string> clients = (from c in this.catalogDatabase.Clients
+                                    orderby c.FirstName, c.LastName ascending
+                                    select c.FirstName + " " + c.LastName).ToList();
+
+            return clients;
+        }
+
+        public List<int> GetCardNumbers()
+        {
+            List<int> cardNumbers = this.catalogDatabase.Clients.OrderBy(c => c.CardNumber).Select(c => c.CardNumber).Distinct().ToList();
+
+            return cardNumbers;
+        }
+
+        public List<string> GetTicketTypes()
+        {
+            List<string> ticketTypes = this.catalogDatabase.Tickets.OrderBy(t => t.Type).Select(t => t.Type).Distinct().ToList();
+
+            return ticketTypes;
         }
     }
 }

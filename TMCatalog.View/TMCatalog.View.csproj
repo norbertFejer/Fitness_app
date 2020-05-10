@@ -65,6 +65,9 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\Admission.xaml.cs">
+      <DependentUpon>Admission.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Article.xaml.cs">
       <DependentUpon>Article.xaml</DependentUpon>
     </Compile>
@@ -73,6 +76,9 @@
     </Compile>
     <Compile Include="UserControls\ClientMembership.xaml.cs">
       <DependentUpon>ClientMembership.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Report.xaml.cs">
+      <DependentUpon>Report.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ShoppingBasket.xaml.cs">
       <DependentUpon>ShoppingBasket.xaml</DependentUpon>
@@ -112,6 +118,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\Admission.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Article.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ClientMembership.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Report.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

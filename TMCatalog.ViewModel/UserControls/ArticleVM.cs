@@ -159,7 +159,7 @@ namespace TMCatalog.ViewModel.UserControls
         {
             Stock stock = this.StockDictionary[this.selectedArticle.Id] as Stock;
             stock.Article = this.selectedArticle;
-            MainWindowViewModel.Instance.AddStockWithArticleToBasket(stock);
+            //MainWindowViewModel.Instance.AddStockWithArticleToBasket(stock);
         }
 
         private bool AddToBasketCanExecute()
