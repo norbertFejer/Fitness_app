@@ -439,6 +439,29 @@ namespace TMCatalog.Logic
             string lastId =  this.catalogDatabase.Entrances.OrderByDescending(e => e.Id).Select(e => e.Id).First().ToString();
             return int.Parse(lastId);
         }
+
+        public List<string> GetAllClientName()
+        {
+            List<string> clients = (from c in this.catalogDatabase.Clients
+                                    orderby c.FirstName, c.LastName ascending
+                                    select c.FirstName + " " + c.LastName).ToList();
+
+            return clients;
+        }
+
+        public List<int> GetCardNumbers()
+        {
+            List<int> cardNumbers = this.catalogDatabase.Clients.OrderBy(c => c.CardNumber).Select(c => c.CardNumber).Distinct().ToList();
+
+            return cardNumbers;
+        }
+
+        public List<string> GetTicketTypes()
+        {
+            List<string> ticketTypes = this.catalogDatabase.Tickets.OrderBy(t => t.Type).Select(t => t.Type).Distinct().ToList();
+
+            return ticketTypes;
+        }
     }
 }
     

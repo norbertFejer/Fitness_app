@@ -54,6 +54,7 @@
     <Compile Include="UserControls\ArticleVM.cs" />
     <Compile Include="UserControls\ClientMembershipVM.cs" />
     <Compile Include="UserControls\ClientVM.cs" />
+    <Compile Include="UserControls\ReportVM.cs" />
     <Compile Include="UserControls\ShoppingBasketVM.cs" />
     <Compile Include="UserControls\VehicleSearchVM.cs" />
   </ItemGroup>

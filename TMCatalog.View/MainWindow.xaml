@@ -49,6 +49,15 @@
                     </DataTemplate>
                 </TabItem.ContentTemplate>
             </TabItem>
+            <TabItem Header="Reports">
+                <TabItem.ContentTemplate>
+                    <DataTemplate>
+                        <controls:Report DataContext="{Binding DataContext.ReportVM, 
+                            RelativeSource={RelativeSource FindAncestor, 
+                            AncestorType={x:Type Window}}}"></controls:Report>
+                    </DataTemplate>
+                </TabItem.ContentTemplate>
+            </TabItem>
         </TabControl>
 
         <Button Grid.Row="3"

@@ -77,6 +77,9 @@
     <Compile Include="UserControls\ClientMembership.xaml.cs">
       <DependentUpon>ClientMembership.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Report.xaml.cs">
+      <DependentUpon>Report.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ShoppingBasket.xaml.cs">
       <DependentUpon>ShoppingBasket.xaml</DependentUpon>
     </Compile>
@@ -128,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ClientMembership.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Report.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

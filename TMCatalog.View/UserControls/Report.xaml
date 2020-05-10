@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="TMCatalog.View.UserControls.Report"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TMCatalog.View.UserControls"
+             xmlns:converters="clr-namespace:TMCatalog.Common.Converters;assembly=TMCatalog.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:DataGridRowNumberConverter x:Key="DataGridRowNumberConverter"/>
+    </UserControl.Resources>
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ComboBox Grid.Row="0"
+                  Grid.Column="0"
+                  SelectedValue="{Binding SelectedReportType, Mode=TwoWay}"
+                  Name="ReportTypeComboBox"
+                  SelectionChanged="ReportTypeComboBox_SelectionChanged"
+                  ItemsSource="{Binding ReportTypes}">
+        </ComboBox>
+
+        <Grid Grid.Row="1"
+              Grid.ColumnSpan="2"
+              Name="FilterGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+        </Grid>
+
+        <DataGrid Grid.Row="2"
+                  Grid.ColumnSpan="2"
+                  ItemsSource="{Binding MainDataContainer}"
+                  IsReadOnly="True"
+                  AutoGenerateColumns="True"
+                  SelectionMode="Extended"
+                  Name="MainDataGrid">
+
+            <DataGrid.RowHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource DataGridRowNumberConverter}}"/>
+                </DataTemplate>
+            </DataGrid.RowHeaderTemplate>
+
+        </DataGrid>
+
+        <Button Grid.Row="3"
+                Grid.Column="2"
+                Content="Export data to xls" Click="ExportData_Click"/>
+    </Grid>
+</UserControl>
