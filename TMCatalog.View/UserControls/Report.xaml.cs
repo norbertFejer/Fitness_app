@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TMCatalog.Logic;
+using TMCatalog.ViewModel;
+using TMCatalog.ViewModel.UserControls;
 
 namespace TMCatalog.View.UserControls
 {
@@ -24,9 +26,19 @@ namespace TMCatalog.View.UserControls
     /// </summary>
     public partial class Report : UserControl
     {
+        ReportVM reportVM;
+        private List<CheckBox> ticketStatusCheckBoxes;
+        private List<CheckBox> ticketTypeCheckBoxes;
+        private List<CheckBox> entranceLeftNumCheckBoxes;
+        private DatePicker validTicketFrom;
+        private List<CheckBox> clientNamesCheckBoxes;
+        private List<string> checkedTicketStatuses;
+        private List<string> checkedTicketTypes;
+        private List<int> checkedTicketEntranceLeftNum;
         public Report()
         {
             InitializeComponent();
+            reportVM = MainWindowViewModel.Instance.ReportVM;
         }
 
         private void createTicketFilters()
@@ -42,16 +54,18 @@ namespace TMCatalog.View.UserControls
             Grid.SetColumn(activeTickets, 0);
             Grid.SetRow(activeTickets, 1);
 
-            List<CheckBox> chkBoxes = new List<CheckBox>();
-            List<bool> tStatusTypes = new List<bool>(new bool[] { true, false});
-            foreach (bool cardNum in tStatusTypes)
+            ticketStatusCheckBoxes = new List<CheckBox>();
+            List<string> tStatusTypes = new List<string>(new string[] { "Active", "Inactive"});
+            foreach (string cardNum in tStatusTypes)
             {
                 CheckBox tmp = new CheckBox();
-                tmp.Content = cardNum.ToString();
-                chkBoxes.Add(tmp);
+                tmp.Content = cardNum;
+                tmp.Checked += ticketFilterCheckBox_Checked;
+                tmp.Unchecked += ticketFilterCheckBox_Checked;
+                ticketStatusCheckBoxes.Add(tmp);
             }
 
-            activeTickets.ItemsSource = chkBoxes;
+            activeTickets.ItemsSource = ticketStatusCheckBoxes;
             FilterGrid.Children.Add(activeTickets);
 
             /// filter 2
@@ -65,16 +79,18 @@ namespace TMCatalog.View.UserControls
             Grid.SetColumn(ticketTypes, 1);
             Grid.SetRow(ticketTypes, 1);
 
-            chkBoxes = new List<CheckBox>();
+            ticketTypeCheckBoxes = new List<CheckBox>();
             var tmpTicketTypes = Data.Catalog.GetTicketTypes();
             foreach (string tType in tmpTicketTypes)
             {
                 CheckBox tmp = new CheckBox();
                 tmp.Content = tType;
-                chkBoxes.Add(tmp);
+                tmp.Checked += ticketFilterCheckBox_Checked;
+                tmp.Unchecked += ticketFilterCheckBox_Checked;
+                ticketTypeCheckBoxes.Add(tmp);
             }
 
-            ticketTypes.ItemsSource = chkBoxes;
+            ticketTypes.ItemsSource = ticketTypeCheckBoxes;
             FilterGrid.Children.Add(ticketTypes);
 
             /// filter 3
@@ -88,24 +104,28 @@ namespace TMCatalog.View.UserControls
             Grid.SetColumn(validityNum, 2);
             Grid.SetRow(validityNum, 1);
 
-            chkBoxes = new List<CheckBox>();
+            entranceLeftNumCheckBoxes = new List<CheckBox>();
             List<int> validityNumLists = new List<int>(new int[] { 1, 2, 5, 10, 15 });
             foreach (int vNum in validityNumLists)
             {
                 CheckBox tmp = new CheckBox();
                 tmp.Content = vNum.ToString();
-                chkBoxes.Add(tmp);
+                tmp.Checked += ticketFilterCheckBox_Checked;
+                tmp.Unchecked += ticketFilterCheckBox_Checked;
+                entranceLeftNumCheckBoxes.Add(tmp);
             }
 
-            validityNum.ItemsSource = chkBoxes;
+            validityNum.ItemsSource = entranceLeftNumCheckBoxes;
             FilterGrid.Children.Add(validityNum);
 
             /// filter 4
 
-            DatePicker validFrom = new DatePicker();
-            Grid.SetColumn(validFrom, 3);
-            Grid.SetRow(validFrom, 1);
-            FilterGrid.Children.Add(validFrom);
+            validTicketFrom = new DatePicker();
+            validTicketFrom.SelectedDate = DateTime.Today.AddDays(-30);
+            validTicketFrom.SelectedDateChanged += ticketFilterCheckBox_Checked;
+            Grid.SetColumn(validTicketFrom, 3);
+            Grid.SetRow(validTicketFrom, 1);
+            FilterGrid.Children.Add(validTicketFrom);
         }
 
         private void createEntranceFilters()
@@ -195,33 +215,48 @@ namespace TMCatalog.View.UserControls
 
         private void createClientFilters()
         {
-            FilterGrid.Children.Clear();
+            /*FilterGrid.Children.Clear();
             TextBox clientName = new TextBox();
             Grid.SetColumn(clientName, 0);
             Grid.SetRow(clientName, 0);
-            FilterGrid.Children.Add(clientName);
+            FilterGrid.Children.Add(clientName);*/
+
+            CheckBox selectAllName = new CheckBox();
+            selectAllName.Content = "Select all";
+            selectAllName.Checked += selectAllClientName_Checked;
+            selectAllName.Unchecked += selectAllClientName_Checked;
+            Grid.SetColumn(selectAllName, 0);
+            Grid.SetRow(selectAllName, 0);
+            FilterGrid.Children.Add(selectAllName);
 
             ListView clientNames = new ListView();
             Grid.SetColumn(clientNames, 0);
-            Grid.SetRow(clientNames, 1);
+            Grid.SetRow(clientNames, 2);
 
-            List<CheckBox> chkBoxes = new List<CheckBox>();
+            clientNamesCheckBoxes = new List<CheckBox>();
             var clients = Data.Catalog.GetAllClientName();
+
             foreach (string client in clients)
             {
                 CheckBox tmp = new CheckBox();
                 tmp.Content = client;
-                chkBoxes.Add(tmp);
+                tmp.Checked += clientCheckBox_Checked;
+                tmp.Unchecked += clientCheckBox_Checked;
+                clientNamesCheckBoxes.Add(tmp);
             }
 
-            clientNames.ItemsSource = chkBoxes;
+            clientNames.ItemsSource = clientNamesCheckBoxes;
             FilterGrid.Children.Add(clientNames);
+            selectAllName.IsChecked = true;
         }
 
         private void ReportTypeComboBox_SelectionChanged(object sender, EventArgs e)
         {
             if (ReportTypeComboBox.SelectedIndex > -1)
             {
+                this.reportVM.DeleteMainDataContainer();
+                FilterGrid.Children.Clear();
+
                 switch (ReportTypeComboBox.SelectedIndex)
                 {
                     case 0:
@@ -229,6 +264,7 @@ namespace TMCatalog.View.UserControls
                         break;
                     case 1:
                         createTicketFilters();
+                        this.reportVM.InitializeMainDataContainerWithTickets();
                         break;
                     case 2:
                         createEntranceFilters();
@@ -240,6 +276,13 @@ namespace TMCatalog.View.UserControls
 
         private void ExportData_Click(object sender, RoutedEventArgs e)
         {
+
+            if ( MainDataGrid.Items.Count == 0)
+            {
+                MessageBox.Show("No data selected!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             SaveFileDialog sf = new SaveFileDialog();
             sf.FileName = "reports.xls";
             sf.DefaultExt = "xls";
@@ -271,6 +314,95 @@ namespace TMCatalog.View.UserControls
             file.Close();
 
             MessageBox.Show("Exporting DataGrid data to Excel file created", "Fitness App", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void clientCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            bool value = (sender as CheckBox).IsChecked ?? false;
+            if (value)
+            {
+                reportVM.AddNewClientToMainContainerByName((string)(sender as CheckBox).Content);
+            }
+            else
+            {
+                reportVM.RemoveClientFromMainContainerByName((string)(sender as CheckBox).Content);
+            }
+        }
+
+        private bool isAnyClientNameSelected()
+        {
+            foreach(CheckBox clientNameCheckBox in clientNamesCheckBoxes)
+            {
+                if (clientNameCheckBox.IsChecked == true)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void selectAllClientName_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (CheckBox clientNameChkBox in clientNamesCheckBoxes)
+            {
+                bool value = (sender as CheckBox).IsChecked ?? false;
+                clientNameChkBox.IsChecked = value;
+            }
+        }
+
+        private void ticketFilterCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            FilterTicketList();
+        }
+
+
+        private void GetCheckedTicketStatuses()
+        {
+            checkedTicketStatuses = new List<string>();
+            foreach (CheckBox chkBox in ticketStatusCheckBoxes)
+            {
+                bool value = chkBox.IsChecked ?? false;
+                if (value)
+                {
+                    checkedTicketStatuses.Add((string)chkBox.Content);
+                }
+            }
+        }
+
+        private void GetCheckedTicketTypes()
+        {
+            checkedTicketTypes = new List<string>();
+            foreach (CheckBox chkBox in ticketTypeCheckBoxes)
+            {
+                bool value = chkBox.IsChecked ?? false;
+                if (value)
+                {
+                    checkedTicketTypes.Add((string)chkBox.Content);
+                }
+            }
+        }
+
+        private void GetCheckedTicketEntranceLeftNum()
+        {
+            checkedTicketEntranceLeftNum = new List<int>();
+            foreach (CheckBox chkBox in entranceLeftNumCheckBoxes)
+            {
+                bool value = chkBox.IsChecked ?? false;
+                if (value)
+                {
+                    checkedTicketEntranceLeftNum.Add(int.Parse((string)chkBox.Content));
+                }
+            }
+        }
+
+        private void FilterTicketList()
+        {
+            GetCheckedTicketStatuses();
+            GetCheckedTicketTypes();
+            GetCheckedTicketEntranceLeftNum();
+
+            reportVM.FilterMainDataContainerByTicketParams(checkedTicketStatuses, checkedTicketTypes, checkedTicketEntranceLeftNum, validTicketFrom.DisplayDate);
         }
     }
 }

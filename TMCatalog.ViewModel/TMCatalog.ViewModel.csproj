@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoginWindow.cs" />
     <Compile Include="AddDiscountWindowViewModel.cs" />
     <Compile Include="AddNewClientWindowViewModel.cs" />
     <Compile Include="EditClientDataWindowViewModel.cs" />
