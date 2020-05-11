@@ -1,0 +1,114 @@
+﻿<Window x:Class="TMCatalog.View.AddNewTicketWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TMCatalog.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" MaxWidth="400" MaxHeight="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               HorizontalAlignment="Center"
+               Content="Type"/>
+
+        <TextBox Grid.Row="0"
+                  Grid.Column="1"
+                  Margin="5"
+                  Text="{Binding Type, Mode=OneWayToSource}"/>
+
+        <Label Grid.Row="2"
+               Grid.RowSpan="2"
+               Grid.Column="0"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Content="Entrance Limit"/>
+
+        <CheckBox Grid.Row="2"
+                  Grid.Column="1"
+                  Margin="5"
+                  Content="Has Entrance Limit"
+                  IsChecked="{Binding HasMaxEntrance, Mode=OneWayToSource}"/>
+
+        <TextBox Grid.Row="3"
+                  Grid.Column="1"
+                  Margin="5"
+                  Text="{Binding MaxEntrance, Mode=OneWayToSource}"
+                  IsEnabled="{Binding HasMaxEntrance, Mode=OneWay}"/>
+
+        <Label Grid.Row="4"
+               Grid.RowSpan="2"
+               Grid.Column="0"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Content="Validity Limit"/>
+
+        <CheckBox Grid.Row="4"
+                  Grid.Column="1"
+                  Margin="5"
+                  Content="Has Validity Limit"
+                  IsChecked="{Binding HasValidityNumber, Mode=OneWayToSource}"/>
+
+        <TextBox Grid.Row="5"
+                  Grid.Column="1"
+                  Margin="5"
+                  Text="{Binding ValidityNumber, Mode=OneWayToSource}"
+                  IsEnabled="{Binding HasValidityNumber, Mode=OneWay}"/>
+
+        <Label Grid.Row="6"
+               Grid.Column="0"
+               HorizontalAlignment="Center"
+               Content="Price"/>
+
+        <TextBox Grid.Row="6"
+                  Grid.Column="1"
+                  Margin="5"
+                  Text="{Binding Price, Mode=OneWayToSource}"/>
+
+        <Label Grid.Row="7"
+               Grid.Column="0"
+               HorizontalAlignment="Center"
+               Content="Comment"/>
+
+        <TextBox Grid.Row="7"
+                  Grid.Column="1"
+                  Margin="5"
+                  Text="{Binding Comment, Mode=OneWayToSource}"/>
+
+        <Label Grid.Row="9"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Center"
+               Content="{Binding ErrorMessage, Mode=OneWay}"/>
+
+        <Button Grid.Row="10"
+                Grid.Column="0"
+                Content="Ok"
+                Margin="5"
+                Command="{Binding OkCommand, Mode=TwoWay}"/>
+
+        <Button Grid.Row="10"
+                Grid.Column="1"
+                Content="Cancel"
+                Margin="5"
+                Command="{Binding CancelCommand, Mode=TwoWay}"/>
+    </Grid>
+</Window>

@@ -87,6 +87,7 @@
         <Button Grid.Row="2"
                 Grid.Column="1"
                 Content="Add New Ticket"
+                IsEnabled="{Binding HasSelectedClient}"
                 Click="OpenSellTicketWindowExecute"/>
 
         <Button Grid.Row="2"

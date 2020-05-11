@@ -23,6 +23,7 @@ namespace TMCatalog.ViewModel
         private Client client;
         private bool editEnabled;
         private bool readOnly;
+        private string errorMessage;
 
         public EditClientDataWindowViewModel(Client client)
         {
@@ -32,7 +33,7 @@ namespace TMCatalog.ViewModel
             this.ReadOnly = true;
             this.OkCommand = new RelayCommand(this.OkCommandExecute);
             this.ChoosePhotoCommand = new RelayCommand(this.ChoosePhotoCommandExecute);
-            this.EditClientCommand = new RelayCommand(this.EditClientCommandExecute, this.EditClientCommandCanExecute);
+            this.EditClientCommand = new RelayCommand(this.EditClientCommandExecute);
             this.DeleteClientCommand = new RelayCommand(this.DeleteClientCommandExecute);
         }
 
@@ -78,6 +79,20 @@ namespace TMCatalog.ViewModel
             }
         }
 
+        public string ErrorMessage
+        {
+            get
+            {
+                return this.errorMessage;
+            }
+
+            set
+            {
+                this.errorMessage = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
         private void OkCommandExecute()
         {
             if (this.Client.Active == false || this.ReadOnly == true)
@@ -86,19 +101,50 @@ namespace TMCatalog.ViewModel
             }
             else
             {
-                if (MessageBox.Show("Are you sure to continue?", "Comfirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (OkCommandCanExecute())
                 {
-                    if (Data.Catalog.EditClient(client) == 1)
+                    this.ErrorMessage = "";
+                    if (MessageBox.Show("Are you sure to continue?", "Comfirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        MessageBox.Show("Changes saved successfully", "Succes!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ViewService.CloseDialog(this);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error while applying changes", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (Data.Catalog.EditClient(client) == 1)
+                        {
+                            MessageBox.Show("Changes saved successfully", "Succes!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MainWindowViewModel.Instance.ClientMembershipVM.SearchClientMembership();
+                            ViewService.CloseDialog(this);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error while applying changes", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
+                else
+                {
+                    this.ErrorMessage = "There are invalid or empty fields!";
+                }
             }
+        }
+
+        private bool OkCommandCanExecute()
+        {
+            /*return this.Client.Cnp != null &&
+                this.Client.FirstName != null &&
+                this.Client.LastName != null &&
+                this.Client.CardNumber != 0 &&
+                this.Client.PhoneNumber != null &&
+                this.Client.Email != null &&
+                this.Client.BirthDate != null &&
+                this.Client.Photo != null;*/
+
+            return !String.IsNullOrEmpty(this.Client.Cnp.Trim()) &&
+                !String.IsNullOrEmpty(this.Client.FirstName.Trim()) &&
+                !String.IsNullOrEmpty(this.Client.LastName.Trim()) &&
+                !String.IsNullOrEmpty(this.Client.PhoneNumber.Trim()) &&
+                !String.IsNullOrEmpty(this.Client.Email.Trim()) &&
+                this.Client.BirthDate != null &&
+                this.Client.Photo != null &&
+                this.Client.BirthDate.Date < DateTime.Now.Date &&
+                this.Client.CardNumber != 0;
         }
 
         private void ChoosePhotoCommandExecute()

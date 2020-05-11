@@ -29,6 +29,7 @@ namespace TMCatalog.ViewModel
         private DateTime birthDate;
         private byte[] photo;
         private string comment;
+        private string errorMessage;
 
         public AddNewClientWindowViewModel()
         {
@@ -37,7 +38,7 @@ namespace TMCatalog.ViewModel
             this.BirthDate = DateTime.Now;
             this.CloseCommand = new RelayCommand(this.CloseCommandExecute);
             this.ChoosePhotoCommand = new RelayCommand(this.ChoosePhotoCommandExecute);
-            this.AddClientCommand = new RelayCommand(this.AddClientCommandExecute, this.AddClientCommandCanExecute);
+            this.AddClientCommand = new RelayCommand(this.AddClientCommandExecute);
         }
 
         public int CardNumber
@@ -180,6 +181,19 @@ namespace TMCatalog.ViewModel
             }
         }
 
+        public string ErrorMessage
+        {
+            get
+            {
+                return this.errorMessage;
+            }
+
+            set
+            {
+                this.errorMessage = value;
+                this.RaisePropertyChanged();
+            }
+        }
 
         private void CloseCommandExecute()
         {
@@ -206,37 +220,49 @@ namespace TMCatalog.ViewModel
 
         private void AddClientCommandExecute()
         {
-            Client client = new Client
+            if (AddClientCommandCanExecute())
             {
-                Id = Data.Catalog.GetMaxId() + 1,
-                CardNumber = this.CardNumber,
-                Cnp = this.Cnp,
-                FirstName = this.FirstName,
-                LastName = this.LastName,
-                PhoneNumber = this.PhoneNumber,
-                Email = this.Email,
-                Gender = this.Gender,
-                BirthDate = this.BirthDate,
-                RegisteredDate = DateTime.Now,
-                Photo = this.Photo,
-                Comment = this.Comment,
-                Active = true
-            };
+                this.ErrorMessage = "";
+                if (MessageBox.Show("Are you sure to add this client?", "Confirm!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Client client = new Client
+                    {
+                        Id = Data.Catalog.GetMaxId() + 1,
+                        CardNumber = this.CardNumber,
+                        Cnp = this.Cnp,
+                        FirstName = this.FirstName,
+                        LastName = this.LastName,
+                        PhoneNumber = this.PhoneNumber,
+                        Email = this.Email,
+                        Gender = this.Gender,
+                        BirthDate = this.BirthDate,
+                        RegisteredDate = DateTime.Now,
+                        Photo = this.Photo,
+                        Comment = this.Comment,
+                        Active = true
+                    };
 
-            if (Data.Catalog.AddClient(client) == 1)
-            {
-                MessageBox.Show("Client added successfully", "Succes!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ViewService.CloseDialog(this);
+                    if (Data.Catalog.AddClient(client) == 1)
+                    {
+                        MessageBox.Show("Client added successfully", "Succes!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MainWindowViewModel.Instance.ClientVM.SearchClient();
+                        ViewService.CloseDialog(this);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error while adding new client", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
             else
             {
-                MessageBox.Show("Error while adding new client", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.ErrorMessage = "There are invalid or empty fields!";
             }
         }
 
         private bool AddClientCommandCanExecute()
         {
-            return this.Cnp != null &&
+            /*return this.Cnp != null &&
                 this.FirstName != null &&
                 this.LastName != null &&
                 this.CardNumber != 0 &&
@@ -245,7 +271,17 @@ namespace TMCatalog.ViewModel
                 this.Email != null &&
                 this.BirthDate != null &&
                 this.Photo != null &&
-                this.BirthDate.Date < DateTime.Now.Date;
+                this.BirthDate.Date < DateTime.Now.Date;*/
+            return !String.IsNullOrEmpty(this.Cnp.Trim()) &&
+                !String.IsNullOrEmpty(this.FirstName.Trim()) &&
+                !String.IsNullOrEmpty(this.LastName.Trim()) &&
+                !String.IsNullOrEmpty(this.PhoneNumber.Trim()) &&
+                !String.IsNullOrEmpty(this.Email.Trim()) &&
+                this.BirthDate != null &&
+                this.Photo != null &&
+                this.BirthDate.Date < DateTime.Now.Date &&
+                this.CardNumber != 0 &&
+                !Data.Catalog.CardNumberExists(this.CardNumber);
         }
 
         private byte[] BitMapToByteArray(Bitmap bitmap)

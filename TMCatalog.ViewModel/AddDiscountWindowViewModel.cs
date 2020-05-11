@@ -19,6 +19,7 @@ namespace TMCatalog.ViewModel
         float discount;
         DateTime beginDate;
         DateTime endDate;
+        private string errorMessage;
 
         public AddDiscountWindowViewModel(Ticket selectedTicket)
         {
@@ -28,7 +29,7 @@ namespace TMCatalog.ViewModel
             //this.BeginDate = DateTime.Now;
             //this.EndDate = DateTime.Now.AddDays(1D);
             this.CancelCommand = new RelayCommand(this.CancelCommandExecute);
-            this.OkCommand = new RelayCommand(this.OkCommandExecute, this.OkCommandCanExecute);
+            this.OkCommand = new RelayCommand(this.OkCommandExecute);
         }
 
         public Ticket Ticket
@@ -87,6 +88,20 @@ namespace TMCatalog.ViewModel
             }
         }
 
+        public string ErrorMessage
+        {
+            get
+            {
+                return this.errorMessage;
+            }
+
+            set
+            {
+                this.errorMessage = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
         private void CancelCommandExecute()
         {
             ViewService.CloseDialog(this);
@@ -99,18 +114,26 @@ namespace TMCatalog.ViewModel
 
         private void OkCommandExecute()
         {
-            if (MessageBox.Show("Continue?", "Confirm!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (OkCommandCanExecute())
             {
-                if (Data.Catalog.AddDiscount(this.Ticket.Id, this.Discount, this.BeginDate, this.EndDate) == 1)
+                this.ErrorMessage = "";
+                if (MessageBox.Show("Are you sure to add this discount?", "Confirm!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    MessageBox.Show("Discount added!", "Succes!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MainWindowViewModel.Instance.TicketVM.SearchTicket();
-                    ViewService.CloseDialog(this);
+                    if (Data.Catalog.AddDiscount(this.Ticket.Id, this.Discount, this.BeginDate, this.EndDate) == 1)
+                    {
+                        MessageBox.Show("Discount added!", "Succes!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MainWindowViewModel.Instance.TicketVM.SearchTicket();
+                        ViewService.CloseDialog(this);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error while adding discount!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Error while adding discount!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            }
+            else
+            {
+                this.ErrorMessage = "There are invalid or empty fields!";
             }
         }
     }

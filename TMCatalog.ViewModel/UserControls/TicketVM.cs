@@ -17,6 +17,7 @@ namespace TMCatalog.ViewModel.UserControls
         private List<Ticket> ticketList;
         private Ticket selectedTicket;
         public RelayCommand DeleteTicketCommand { get; private set; }
+        private bool hasSelectedTicket;
 
         public TicketVM()
         {
@@ -74,6 +75,20 @@ namespace TMCatalog.ViewModel.UserControls
             }
         }
 
+        public bool HasSelectedTicket
+        {
+            get
+            {
+                return this.hasSelectedTicket;
+            }
+
+            set
+            {
+                this.hasSelectedTicket = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
         public void SearchTicket()
         {
             if (String.IsNullOrEmpty(SearchText.Trim()) || SearchText.Equals(PlaceholderText))
@@ -111,6 +126,14 @@ namespace TMCatalog.ViewModel.UserControls
 
         private bool DeleteTicketCommandCanExecute()
         {
+            if (this.SelectedTicket != null)
+            {
+                this.HasSelectedTicket = this.SelectedTicket.Active;
+            }
+            else
+            {
+                this.HasSelectedTicket = false;
+            }
             return this.SelectedTicket != null;
         }
     }

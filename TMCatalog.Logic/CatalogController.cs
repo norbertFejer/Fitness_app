@@ -644,6 +644,23 @@ namespace TMCatalog.Logic
                                               }).ToList();
             return ticketList.ToList();
         }
+
+        public int AddTicket(Ticket ticket)
+        {
+            this.catalogDatabase.Tickets.Add(ticket);
+
+            try
+            {
+                this.catalogDatabase.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+
+            return 1;
+
+        }
     }
 }
     
