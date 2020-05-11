@@ -9,12 +9,15 @@ namespace TMCatalog.View
 {
     using System;
     using System.Windows;
+    using TMCatalog.Common.MVVM;
+    using TMCatalog.ViewModel;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        private LoginWindow loginWindow;
         public MainWindow()
         {
             InitializeComponent();
@@ -23,7 +26,22 @@ namespace TMCatalog.View
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
-            Application.Current.Shutdown();
+            if (loginWindow == null)
+            {
+                Application.Current.Shutdown();
+            }
+        }
+
+        private void LogOutCommandWindowExecute(object obj, RoutedEventArgs e)
+        {
+            loginWindow = new LoginWindow();
+            LoginWindowViewModel loginWindowViewModel = new LoginWindowViewModel();
+
+            this.Close();
+
+            ViewService.AddMainWindowToOpened(loginWindowViewModel, loginWindow);
+            ViewService.ShowDialog(loginWindowViewModel);
+            this.Close();
         }
     }
 }

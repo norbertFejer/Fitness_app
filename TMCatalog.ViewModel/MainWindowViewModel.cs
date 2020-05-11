@@ -18,7 +18,7 @@ namespace TMCatalog.ViewModel
         private int selectedTabIndex;
         private string userName;
         private short userType;
-        private string reportTabVisibility;
+        private string adminTabVisibility;
         public static MainWindowViewModel Instance { get; private set; }
 
         public MainWindowViewModel(string userName, short userType)
@@ -28,7 +28,6 @@ namespace TMCatalog.ViewModel
             this.UserType = userType;
 
             this.CloseCommand = new RelayCommand(this.CloseCommandExecute);
-            this.LogOutCommand = new RelayCommand(this.LogOutCommandExecute);
             this.selectedTabIndex = 0;
 
             this.AdmissionVM = new AdmissionVM();
@@ -38,12 +37,12 @@ namespace TMCatalog.ViewModel
             if (UserType == 1)
             {
                 this.ReportVM = new ReportVM();
+                this.TicketVM = new TicketVM();
             }
             else
             {
-                ReportTabVisibility = "Hidden";
+                AdminTabVisibility = "Hidden";
             }
-            this.TicketVM = new TicketVM();
         }
 
         public RelayCommand CloseCommand { get; set; }
@@ -63,11 +62,6 @@ namespace TMCatalog.ViewModel
         public void CloseCommandExecute()
         {
             ViewService.CloseDialog(this);
-        }
-
-        public void LogOutCommandExecute()
-        {
-            
         }
 
         public void SetAndOpenMembership(string name)
@@ -123,16 +117,16 @@ namespace TMCatalog.ViewModel
             }
         }
 
-        public string ReportTabVisibility
+        public string AdminTabVisibility
         {
             get
             {
-                return this.reportTabVisibility;
+                return this.adminTabVisibility;
             }
 
             set
             {
-                this.reportTabVisibility = value;
+                this.adminTabVisibility = value;
                 this.RaisePropertyChanged();
             }
         }

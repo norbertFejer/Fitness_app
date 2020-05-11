@@ -46,16 +46,16 @@ namespace TMCatalog.View
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            //string userName = UsernameBox.Text;
-            //string plainPassword = PasswordBox.Password.ToString();
+            string userName = UsernameBox.Text;
+            string plainPassword = PasswordBox.Password.ToString();
 
-            //if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(plainPassword))
-            //{
-            //    this.ErrorMessage = "Username or password is empty!";
-            //}
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(plainPassword))
+            {
+                this.ErrorMessage = "Username or password is empty!";
+            }
 
-            string userName = "admin1";
-            string plainPassword = "admin";
+            //string userName = "admin1";
+            //string plainPassword = "admin";
 
             string hashedPassword = GetPasswordHash(plainPassword);
             this.CurrentUser = Data.Catalog.GetUserByUsernameAndPassword(userName, hashedPassword);

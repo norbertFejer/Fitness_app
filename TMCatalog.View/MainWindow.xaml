@@ -49,7 +49,7 @@
                     </DataTemplate>
                 </TabItem.ContentTemplate>
             </TabItem>
-            <TabItem Header="Reports" Visibility="{Binding Path=ReportTabVisibility}">
+            <TabItem Header="Reports" Visibility="{Binding Path=AdminTabVisibility}">
                 <TabItem.ContentTemplate>
                     <DataTemplate>
                         <controls:Report DataContext="{Binding DataContext.ReportVM, 
@@ -58,7 +58,7 @@
                     </DataTemplate>
                 </TabItem.ContentTemplate>
             </TabItem>
-            <TabItem Header="Tickets">
+            <TabItem Header="Tickets" Visibility="{Binding Path=AdminTabVisibility}">
                 <TabItem.ContentTemplate>
                     <DataTemplate>
                         <controls:Ticket DataContext="{Binding DataContext.TicketVM, 
@@ -79,7 +79,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Content="LogOut"
-            Command="{Binding LogOutCommand}">
+            Click="LogOutCommandWindowExecute">
         </Button>
             
     </Grid>
