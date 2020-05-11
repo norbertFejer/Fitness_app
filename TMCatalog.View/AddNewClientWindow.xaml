@@ -19,6 +19,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -148,14 +149,19 @@
                  Margin="5"
                  Text="{Binding Comment, Mode=OneWayToSource}"/>
 
-        <Button Grid.Row="10"
+        <Label Grid.Row="10"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Center"
+               Content="{Binding ErrorMessage, Mode=OneWay}"/>
+
+        <Button Grid.Row="11"
                 Grid.Column="0"
                 Width="Auto"
                 Content="OK"
                 Margin="5"
                 Command="{Binding AddClientCommand}"/>
         
-        <Button Grid.Row="10"
+        <Button Grid.Row="11"
                 Grid.Column="1"
                 Width="Auto"
                 Content="Cancel"

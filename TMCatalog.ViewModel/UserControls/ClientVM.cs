@@ -16,6 +16,7 @@ namespace TMCatalog.ViewModel.UserControls
         private Client selectedClient;
         private string searchText;
         public RelayCommand OpenClientMembershipTabCommand { get; private set; }
+        private bool hasSelectedClient;
 
         public ClientVM()
         {
@@ -55,6 +56,20 @@ namespace TMCatalog.ViewModel.UserControls
             set
             {
                 this.selectedClient = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
+        public bool HasSelectedClient
+        {
+            get
+            {
+                return this.hasSelectedClient;
+            }
+
+            set
+            {
+                this.hasSelectedClient = value;
                 this.RaisePropertyChanged();
             }
         }
@@ -107,6 +122,14 @@ namespace TMCatalog.ViewModel.UserControls
 
         private bool OpenClientMembershipTabCanExecute()
         {
+            if (this.SelectedClient != null)
+            {
+                this.HasSelectedClient = this.SelectedClient.Active;
+            }
+            else
+            {
+                this.HasSelectedClient = false;
+            }
             return this.SelectedClient != null;
         }
     }

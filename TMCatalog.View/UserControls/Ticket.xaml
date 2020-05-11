@@ -109,6 +109,7 @@
         <Button Grid.Row="2"
                 Grid.Column="1"
                 Content="Add Discount"
+                IsEnabled="{Binding HasSelectedTicket}"
                 Click="OpenAddDiscountWindowExecute"/>
 
         <Button Grid.Row="2"

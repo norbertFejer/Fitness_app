@@ -9,12 +9,13 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="300"></RowDefinition>
+            <RowDefinition Height="200"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
@@ -55,13 +56,18 @@
                  Margin="5"
                  SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"/>
 
-        <Button Grid.Row="6"
+        <Label Grid.Row="6"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Center"
+               Content="{Binding ErrorMessage, Mode=OneWay}"/>
+
+        <Button Grid.Row="7"
                 Grid.Column="0"
                 Content="Sell"
                 Margin="5"
                 Command="{Binding OkCommand}"/>
 
-        <Button Grid.Row="6"
+        <Button Grid.Row="7"
                 Grid.Column="1"
                 Content="Cancel"
                 Margin="5"

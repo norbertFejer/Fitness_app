@@ -64,6 +64,9 @@
     <Compile Include="AddNewClientWindow.xaml.cs">
       <DependentUpon>AddNewClientWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddNewTicketWindow.xaml.cs">
+      <DependentUpon>AddNewTicketWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditClientDataWindow.xaml.cs">
       <DependentUpon>EditClientDataWindow.xaml</DependentUpon>
     </Compile>
@@ -126,6 +129,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddNewClientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddNewTicketWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

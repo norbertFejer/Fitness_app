@@ -20,6 +20,8 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -172,18 +174,18 @@
                  IsReadOnly="{Binding ReadOnly, Mode=OneWay}"/>
 
         <Label Grid.Row="11"
-               Grid.Column="0" 
-               Content="Active" 
-               HorizontalAlignment="Center"/>
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Center"
+               Content="{Binding ErrorMessage, Mode=OneWay}"/>
 
-        <Button Grid.Row="11"
+        <Button Grid.Row="12"
                 Grid.Column="0"
                 Width="Auto"
                 Content="Delete"
                 Margin="5"
                 Command="{Binding DeleteClientCommand}"/>
 
-        <Button Grid.Row="11"
+        <Button Grid.Row="12"
                 Grid.Column="1"
                 Width="120"
                 HorizontalAlignment="Left"
@@ -192,7 +194,7 @@
                 Command="{Binding EditClientCommand}"
                 IsEnabled="{Binding ReadOnly, Mode=OneWay}"/>
 
-        <Button Grid.Row="11"
+        <Button Grid.Row="12"
                 Grid.Column="1"
                 Width="120"
                 HorizontalAlignment="Right"

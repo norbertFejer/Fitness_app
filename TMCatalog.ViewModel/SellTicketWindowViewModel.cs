@@ -19,6 +19,7 @@ namespace TMCatalog.ViewModel
         private DateTime selectedDate;
         public RelayCommand OkCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
+        private string errorMessage;
 
         public SellTicketWindowViewModel(Client client)
         {
@@ -27,7 +28,7 @@ namespace TMCatalog.ViewModel
             this.Tickets = Data.Catalog.GetTickets();
             //this.SelectedTicketId = this.tickets?.FirstOrDefault().Id ?? -1;
             this.CancelCommand = new RelayCommand(this.CancelCommandExecute);
-            this.OkCommand = new RelayCommand(this.OkCommandExecute, this.OkCommandCanExecute);
+            this.OkCommand = new RelayCommand(this.OkCommandExecute);
         }
 
         public Client Client
@@ -86,6 +87,20 @@ namespace TMCatalog.ViewModel
             }
         }
 
+        public string ErrorMessage
+        {
+            get
+            {
+                return this.errorMessage;
+            }
+
+            set
+            {
+                this.errorMessage = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
         private void CancelCommandExecute()
         {
             ViewService.CloseDialog(this);
@@ -98,45 +113,52 @@ namespace TMCatalog.ViewModel
 
         private void OkCommandExecute()
         {
-            float price;
-            if (this.SelectedTicket.Discount > 0 
-                && DateTime.Now.Date >= this.SelectedTicket.DiscountFrom.Date
-                && DateTime.Now.Date <= this.SelectedTicket.DiscountUntil.Date)
+            if (OkCommandCanExecute())
             {
-                price = this.SelectedTicket.Price - this.SelectedTicket.Price * this.SelectedTicket.Discount / 100;
+                float price;
+                if (this.SelectedTicket.Discount > 0
+                    && DateTime.Now.Date >= this.SelectedTicket.DiscountFrom.Date
+                    && DateTime.Now.Date <= this.SelectedTicket.DiscountUntil.Date)
+                {
+                    price = this.SelectedTicket.Price - this.SelectedTicket.Price * this.SelectedTicket.Discount / 100;
+                }
+                else
+                {
+                    price = this.SelectedTicket.Price;
+                }
+
+                string interrogation = $"Total price: {price}. Continue?";
+
+                if (MessageBox.Show(interrogation, "Confirm!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    ClientMembership clientMembership = new ClientMembership();
+                    clientMembership.Active = true;
+                    clientMembership.Client = this.Client;
+                    clientMembership.ClientId = this.Client.Id;
+                    clientMembership.Comment = "";
+                    clientMembership.EntranceLeft = this.SelectedTicket.MaxEntrance;
+                    clientMembership.Price = price;
+                    clientMembership.SoldOn = DateTime.Now;
+                    clientMembership.Ticket = this.SelectedTicket;
+                    clientMembership.TicketId = this.SelectedTicket.Id;
+                    clientMembership.User = new User();
+                    clientMembership.UserId = 1;
+                    clientMembership.ValidAfter = this.SelectedDate;
+
+                    if (Data.Catalog.AddClientMembership(clientMembership) == 1)
+                    {
+                        MessageBox.Show("Ticket sold!", "Succes!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ViewService.CloseDialog(this);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error while selling ticket!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
             else
             {
-                price = this.SelectedTicket.Price;
-            }
-
-            string interrogation = $"Total price: {price}. Continue?";
-
-            if (MessageBox.Show(interrogation, "Confirm!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                ClientMembership clientMembership = new ClientMembership();
-                clientMembership.Active = true;
-                clientMembership.Client = this.Client;
-                clientMembership.ClientId = this.Client.Id;
-                clientMembership.Comment = "";
-                clientMembership.EntranceLeft = this.SelectedTicket.MaxEntrance;
-                clientMembership.Price = price;
-                clientMembership.SoldOn = DateTime.Now;
-                clientMembership.Ticket = this.SelectedTicket;
-                clientMembership.TicketId = this.SelectedTicket.Id;
-                clientMembership.User = new User();
-                clientMembership.UserId = 1;
-                clientMembership.ValidAfter = this.SelectedDate;
-
-                if(Data.Catalog.AddClientMembership(clientMembership) == 1)
-                    {
-                    MessageBox.Show("Ticket sold!", "Succes!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    ViewService.CloseDialog(this);
-                }
-                    else
-                    {
-                    MessageBox.Show("Error while selling ticket!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                this.ErrorMessage = "There are invalid or empty fields!";
             }
         }
     }

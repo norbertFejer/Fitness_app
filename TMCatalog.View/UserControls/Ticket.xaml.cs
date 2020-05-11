@@ -57,12 +57,12 @@ namespace TMCatalog.View.UserControls
 
         private void OpenAddNewTicketWindowExecute(object obj, RoutedEventArgs e)
         {
-            /*SellTicketWindow sellTicketWindow = new SellTicketWindow();
-            SellTicketWindowViewModel sellTicketWindowViewModel = new SellTicketWindowViewModel(this.clientVM.SelectedClient);
+            AddNewTicketWindow addNewTicketWindow = new AddNewTicketWindow();
+            AddNewTicketWindowViewModel addnewTicketWindowViewModel = new AddNewTicketWindowViewModel();
 
-            ViewService.RegisterView(sellTicketWindowViewModel.GetType(), sellTicketWindow.GetType());
-            ViewService.AddMainWindowToOpened(sellTicketWindowViewModel, sellTicketWindow);
-            ViewService.ShowDialog(sellTicketWindowViewModel);*/
+            ViewService.RegisterView(addnewTicketWindowViewModel.GetType(), addNewTicketWindow.GetType());
+            ViewService.AddMainWindowToOpened(addnewTicketWindowViewModel, addNewTicketWindow);
+            ViewService.ShowDialog(addnewTicketWindowViewModel);
         }
 
         private void OpenAddDiscountWindowExecute(object obj, RoutedEventArgs e)
